@@ -6,7 +6,8 @@ const { app } = require('./app');
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE;
+const DB =
+  'mongodb+srv://devboobagreen:QxJJgyTcZSR9Rd8b@co2telegram.hiwspma.mongodb.net/?retryWrites=true&w=majority&appName=Co2Telegram';
 
 async function dbConnect() {
   try {
