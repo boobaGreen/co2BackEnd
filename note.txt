@@ -1,3 +1,29 @@
 to do :
 -report controller
 -riguardare tutto e inziiare tutto
+
+  x aws develop
+  https://www.youtube.com/watch?v=Ji8i_2vinBo
+  elastic start : https://us-west-2.console.aws.amazon.com/elasticbeanstalk/home?region=us-west-2#/welcome
+  1-scegliere web server environment 
+  2- dare un nome in: Application name    qui do : co2-back
+  3 in automatico mi ha dato il : Environment name qui e' : Co2-back-env
+  4 domain lo scelgo io qui ho scelto : co2-back
+  5 verifico che sia disponibile con button : "check availability"
+  6 su platform : lasciare managed platform , poi scegliere la piattaforma da menu a tendina Platform "Node.js" nel nostro caso
+  7 lasciare node 20 linux 2023 64 bit
+  8 lasciare platform version io lascio 6.1.5
+  9 application code lasciamo sample application
+  10 preset lasciamo single instance (free tier)
+  11 Next button
+  12   service access o create and use a new service role dove puoi vedere i details dei permessi con bottone se ho capito bene
+  13 altrimenti use an existing service role io provo questo usando lo stesso del bot
+  14 ec2 instance profile o ne fai uno nuovo con i giusti permessi (guarda video) altrimenti uso quello gia' fatto per bot ec2-beanstalk
+  15 poi next le prossime pagine fino alla fine ultimo taso e' SUBMIT
+  16 ora ci vorranno 3-5 minuti per creare l'ambiente su aws
+  
+
+
+
+
+
