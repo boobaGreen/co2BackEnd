@@ -72,7 +72,7 @@ app.use('/test', testRouter);
 
 // // app.use('/api/v1/users', userRouter);
 // app.use('/api/v1/groups', groupRouter);
-app.use('/api/v1/reports', reportRouter);
+app.use('/reports', reportRouter);
 // app.use('/api/v1/stats', statRouter);
 
 // set route for all no match routes
