@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 
 const reportSchema = new mongoose.Schema({
   groupId: { type: String, required: [true, 'Report must belong to a Group.'] }, // String ID from Telegram
-
-  // participants: { type: Number }, // Optional, remove if not needed
+  groupName: {
+    type: String,
+  }, // Name of the group
+  participantsCount: { type: Number }, // Optional, remove if not needed
 
   totalMessages: { type: Number, required: true }, // Number of messages
 
