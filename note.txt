@@ -27,3 +27,4 @@ co2-back-bot
 
 co2-back-bot.us-west-2.elasticbeanstalk.com
 
+log +2 ore rispetto vero
