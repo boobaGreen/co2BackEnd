@@ -18,14 +18,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Genrate Deployment Package
-        run: zip -r co2-back.zip .
+        run: zip -r co2-back-bot.zip .
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: 'co2-back'
-          environment_name: 'Co2-back-env'
+          application_name: 'co2-back-bot'
+          environment_name: 'Co2-back-bot'
           version_label: ${{ github.sha }}
           region: us-west-2
           deployment_package: co2-back.zip
