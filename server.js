@@ -33,7 +33,7 @@ server.listen(port, () => {
 
 // Gestisce le promesse non gestite
 process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION! 💥', err.name, err.message);
+  console.error('UNHANDLED REJECTION!  💥', err.name, err.message);
   server.close(() => {
     process.exit(1);
   });
