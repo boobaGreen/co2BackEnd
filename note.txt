@@ -23,7 +23,7 @@ to do :
   16 ora ci vorranno 3-5 minuti per creare l'ambiente su aws
   
 
+co2-back-bot
 
-
-
+co2-back-bot.us-west-2.elasticbeanstalk.com
 
