@@ -1,7 +1,9 @@
+// File: server.js
+
 const mongoose = require('mongoose');
 const http = require('http');
-
 const dotenv = require('dotenv');
+const { writeToLogFile } = require('./utils/logger');
 const { app } = require('./app');
 
 dotenv.config({ path: './config.env' });
@@ -11,9 +13,9 @@ const DB = process.env.DATABASE;
 async function dbConnect() {
   try {
     await mongoose.connect(DB);
-    console.log('Connected to the database!');
+    writeToLogFile('Connected to the database!');
   } catch (error) {
-    console.error('Database connection error:', error.message);
+    writeToLogFile(`Database connection error: ${error.message}`);
     process.exit(1);
   }
 }
@@ -23,34 +25,30 @@ const port = process.env.PORT || 5000;
 
 const server = http.createServer(app);
 
-// Applica il middleware CORS prima di definire le route
-// app.use(cors());
-
 server.listen(port, () => {
-  console.log(`App running on port ${port}...`);
+  writeToLogFile(`App running on port ${port}...`);
 });
 
-// Gestisce le promesse non gestite
 process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION!  💥', err.name, err.message);
+  writeToLogFile(`UNHANDLED REJECTION! 💥${err.name} ${err.message}`);
   server.close(() => {
     process.exit(1);
   });
 });
 
-// Gestisce eccezioni non gestite
 process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION! 💥', err.name, err.message, err.stack);
+  writeToLogFile(
+    `UNCAUGHT EXCEPTION! 💥${err.name} ${err.message} ${err.stack}`,
+  );
   server.close(() => {
     process.exit(1);
   });
 });
 
-// Gestisce chiusura del processo
 process.on('SIGTERM', () => {
-  console.log('SIGTERM RECEIVED. Shutting down gracefully');
+  writeToLogFile('SIGTERM RECEIVED. Shutting down gracefully');
   server.close(() => {
-    console.log('Process terminated');
+    writeToLogFile('Process terminated');
   });
 });
 

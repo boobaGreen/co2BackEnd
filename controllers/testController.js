@@ -1,3 +1,5 @@
+const { writeToLogFile } = require('../utils/logger');
+
 exports.test = (req, res, next) => {
   // Create a report object
   const report = {
@@ -7,7 +9,7 @@ exports.test = (req, res, next) => {
   };
 
   // SEND RESPONSE
-  console.log('test ok!!!!');
+  writeToLogFile('test ok!!!!');
   res.status(200).json({
     status: 'success',
     data: report, // Include the report object in data
