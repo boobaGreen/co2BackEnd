@@ -1,1 +1,0 @@
-mongodb+srv://devboobagreen:QxJJgyTcZSR9Rd8b@co2telegram.hiwspma.mongodb.net/

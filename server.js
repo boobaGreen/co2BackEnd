@@ -21,7 +21,7 @@ async function dbConnect() {
 
 dbConnect();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3005;
 
 const server = http.createServer(app);
 
