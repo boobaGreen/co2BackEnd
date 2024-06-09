@@ -7,13 +7,13 @@ const router = express.Router();
 // Routes for reports
 router
   .route('/')
-  .get(reportController.getAllReport)
-  .post(reportController.createReport);
+  .get(reportController.getAllReport) // per tutti - verifica filtri
+  .post(reportController.createReport); // solo per bot
 
 router
   .route('/:id')
-  .get(reportController.getReport)
-  .patch(reportController.updateReport)
-  .delete(reportController.deleteReport);
+  .get(reportController.getReport) // per tutti - verifica filtri
+  .patch(reportController.updateReport) // solo per admin dell canale
+  .delete(reportController.deleteReport); // solo per admin del canale
 
 module.exports = router;

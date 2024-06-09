@@ -7,17 +7,20 @@ const reportSchema = new mongoose.Schema({
   }, // Name of the group
   participantsCount: { type: Number }, // Optional, remove if not needed
 
-  totalMessages: { type: Number, required: true }, // Number of messages
+  totalMessages: {
+    type: Number,
+    required: [true, 'Report must have a total message'],
+  }, // Number of messages
 
   totalSizeKB: {
     type: Number,
-    required: true,
+    required: [true, 'Report must have a total kb'], // Total size in KB
   },
 
-  emissionsOneByteMethod: { type: Number },
-  emissionsSWDMethod: { type: Number },
+  emissionsOneByteMethod: { type: Number }, // grammi
+  emissionsSWDMethod: { type: Number }, // grammi
 
-  timestamp: { type: Date, default: Date.now, required: true }, // Timestamp of the report
+  timestamp: { type: Date, default: Date.now, required: true }, // Timestamp of the report "2024-06-07T20:00:39.056Z
 });
 
 const Report = mongoose.model('Report', reportSchema);
