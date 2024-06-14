@@ -1,4 +1,4 @@
-const Group = require('../models/groupModel');
+const Donation = require('../models/groupModel');
 //const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
@@ -9,8 +9,8 @@ const factory = require('./handlerFactory');
 //   next();
 // };
 
-exports.getAllGroup = factory.getAll(Group);
-exports.getGroup = factory.getOne(Group);
-exports.createGroup = factory.createOne(Group);
+exports.getAllGroup = factory.getAll(Donation);
+exports.getGroup = factory.getOne(Donation);
+exports.createGroup = factory.createOne(Donation);
 // exports.deleteGroup = factory.deleteOne(School);
 // exports.updateGroup = factory.updateOne(School);
