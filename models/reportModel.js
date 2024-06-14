@@ -51,12 +51,12 @@ const createReport = async (data) => {
 };
 
 // Esempio di utilizzo
-createReport({
-  groupId: '123456',
-  groupName: 'Test Group',
-  participantsCount: 100,
-  totalMessages: 50,
-  totalSizeKB: 123.45,
-  emissionsOneByteMethod: 0.1234567,
-  emissionsSWDMethod: 0.2345678,
-});
+// createReport({
+//   groupId: '123456',
+//   groupName: 'Test Group',
+//   participantsCount: 100,
+//   totalMessages: 50,
+//   totalSizeKB: 123.45,
+//   emissionsOneByteMethod: 0.1234567,
+//   emissionsSWDMethod: 0.2345678,
+// });

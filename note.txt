@@ -20,6 +20,7 @@ to do :
   13 altrimenti use an existing service role io provo questo usando lo stesso del bot
   14 ec2 instance profile o ne fai uno nuovo con i giusti permessi (guarda video) altrimenti uso quello gia' fatto per bot ec2-beanstalk
   15 poi next le prossime pagine fino alla fine ultimo taso e' SUBMIT
+  AGGIUNGO ENV
   16 ora ci vorranno 3-5 minuti per creare l'ambiente su aws
   
 
