@@ -77,7 +77,7 @@ app.use('/api/v1/reports', reportRouter);
 
 // set route for all no match routes
 app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find${req.originalUrl} on this server`, 404));
+  next(new AppError(`Can't find${req.originalUrl} on this server `, 404));
 });
 
 //Global Error Handling Middleware - 4 argument express recognize is a error middleware
