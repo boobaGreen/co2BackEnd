@@ -30,7 +30,7 @@ server.listen(port, () => {
 });
 
 process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION! 💥', err.name, err.message);
+  console.error('UNHANDLED REJECTION!! 💥', err.name, err.message);
   server.close(() => {
     process.exit(1);
   });
