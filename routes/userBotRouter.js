@@ -6,6 +6,6 @@ const router = express.Router();
 
 // Routes for reports
 // router.route('/').get(testController.test);
-router.route('/').get(userBotController.test);
+router.route('/').get(userBotController.getDetailGroups);
 
 module.exports = router;
