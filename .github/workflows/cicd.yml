@@ -3,7 +3,7 @@ name: CICD
 on:
   push:
     branches:
-      - aws_back
+      - no
 
 jobs:
   build-and-deploy:
