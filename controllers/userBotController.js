@@ -7,7 +7,7 @@ exports.getDetailGroups = async (req, res, next) => {
 
     // Chiamata al backend per ottenere i gruppi dell'utente
     const response = await axios.get(
-      `http://localhost:3000/api/getUserGroups?userId=${userId}`,
+      `https://co2backend.onrender.com/api/getUserGroups?userId=${userId}`,
     );
 
     // Dati dei gruppi dell'utente ottenuti dalla chiamata al backend
