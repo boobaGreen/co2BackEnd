@@ -8,8 +8,9 @@ const getUserGroups = async (userId) => {
   try {
     const updatesUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`;
     const updatesResponse = await axios.get(updatesUrl);
+    console.log('updatesResponse:', updatesResponse.data);
     const updates = updatesResponse.data.result;
-
+    console.log('updates:', updates);
     const groups = [];
 
     updates.forEach(async (update) => {
@@ -21,6 +22,7 @@ const getUserGroups = async (userId) => {
         const chatId = update.message.chat.id;
         const memberUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatMember?chat_id=${chatId}&user_id=${userId}`;
         const memberResponse = await axios.get(memberUrl);
+        console.log('memberResponse:', memberResponse.data);
 
         if (memberResponse.data.ok) {
           const { status } = memberResponse.data.result;
@@ -34,7 +36,7 @@ const getUserGroups = async (userId) => {
         }
       }
     });
-
+    console.log('groups:', groups);
     return groups;
   } catch (error) {
     console.error('Error fetching user groups:', error);
