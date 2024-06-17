@@ -11,6 +11,7 @@ const getUserGroups = async (userId) => {
     const updates = updatesResponse.data.result;
 
     const groups = [];
+    const memberRequests = [];
 
     // eslint-disable-next-line no-restricted-syntax
     for (const update of updates) {
@@ -21,20 +22,25 @@ const getUserGroups = async (userId) => {
       ) {
         const chatId = update.message.chat.id;
         const memberUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatMember?chat_id=${chatId}&user_id=${userId}`;
-        const memberResponse = await axios.get(memberUrl);
-        //
-        if (memberResponse.data.ok) {
-          const { status } = memberResponse.data.result;
-          if (status === 'member' || status === 'administrator') {
-            groups.push({
-              chat_id: chatId,
-              title: update.message.chat.title,
-              status: status,
-            });
-          }
-        }
+        memberRequests.push(axios.get(memberUrl));
       }
     }
+
+    const memberResponses = await Promise.all(memberRequests);
+
+    memberResponses.forEach((memberResponse, index) => {
+      const update = updates[index];
+      if (memberResponse.data.ok) {
+        const { status } = memberResponse.data.result;
+        if (status === 'member' || status === 'administrator') {
+          groups.push({
+            chat_id: update.message.chat.id,
+            title: update.message.chat.title,
+            status: status,
+          });
+        }
+      }
+    });
 
     return groups;
   } catch (error) {
