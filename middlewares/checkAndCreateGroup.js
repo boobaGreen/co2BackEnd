@@ -24,30 +24,28 @@ const checkAndCreateGroup = async (req, res, next) => {
     let group = await Group.findOne({ groupId });
 
     if (!group) {
-      // Create the group if it doesn't exist (set counters and adminNames from report)
+      // Create the group if it doesn't exist (set counters from report)
       group = await Group.create({
         groupId,
         groupName,
         participantsCount,
         adminNames,
-        totalMessages,
-        totalSizeKB,
-        totalEmissionsOneByte,
-        totalEmissionsSWD,
+        totalMessages: totalMessages || 0, // Set to 0 if not provided
+        totalSizeKB: totalSizeKB || 0, // Set to 0 if not provided
+        totalEmissionsOneByte: totalEmissionsOneByte || 0, // Set to 0 if not provided
+        totalEmissionsSWD: totalEmissionsSWD || 0, // Set to 0 if not provided
       });
     } else {
-      // Update group data if it exists (update counters and adminNames)
+      // Update group data if it exists
       group.participantsCount = participantsCount; // Update participantsCount (always)
       group.groupName = groupName; // Update groupName if provided
       group.adminNames = adminNames; // Update adminNames (always)
 
-      // Update counters (always)
-      group.totalMessages = totalMessages || group.totalMessages || 0; // Set to 0 if not provided
-      group.totalSizeKB = totalSizeKB || group.totalSizeKB || 0; // Set to 0 if not provided
-      group.totalEmissionsOneByte =
-        totalEmissionsOneByte || group.totalEmissionsOneByte || 0; // Set to 0 if not provided
-      group.totalEmissionsSWD =
-        totalEmissionsSWD || group.totalEmissionsSWD || 0; // Set to 0 if not provided
+      // Update counters (sum with existing values)
+      group.totalMessages += totalMessages || 0; // Add report value (or 0 if not provided)
+      group.totalSizeKB += totalSizeKB || 0; // Add report value (or 0 if not provided)
+      group.totalEmissionsOneByte += totalEmissionsOneByte || 0; // Add report value (or 0 if not provided)
+      group.totalEmissionsSWD += totalEmissionsSWD || 0; // Add report value (or 0 if not provided)
 
       await group.save();
     }
