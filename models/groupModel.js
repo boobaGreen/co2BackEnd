@@ -13,16 +13,17 @@ const groupSchema = new mongoose.Schema({
     required: true,
     comment: 'Name of the group',
   },
+  participantsCount: {
+    type: Number,
+    required: true,
+    comment: 'Number of participants in the group',
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
 
 module.exports = Group;
-// participantsCount: {
-//   type: Number,
-//   required: true,
-//   comment: 'Number of participants in the group',
-// },
+
 // totalMessages: {
 //   type: Number,
 //   default: 0,

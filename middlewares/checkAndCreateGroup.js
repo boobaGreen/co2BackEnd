@@ -1,9 +1,8 @@
-// middlewares/checkAndCreateGroup.js
-const Group = require('../models/groupModel'); // Assumendo che tu abbia un modello Group
+const Group = require('../models/groupModel'); // Assuming groupModel.js is in the models folder
 
 const checkAndCreateGroup = async (req, res, next) => {
   try {
-    const { groupId, groupName } = req.body; // Presumendo che groupId e groupName siano nel corpo della richiesta
+    const { groupId, groupName, participantsCount } = req.body; // Access participantsCount
 
     if (!groupId) {
       return res.status(400).json({
@@ -12,19 +11,23 @@ const checkAndCreateGroup = async (req, res, next) => {
       });
     }
 
-    // Cerca il gruppo per groupId
+    // Search for the group by groupId
     let group = await Group.findOne({ groupId });
 
     if (!group) {
-      // Creare il gruppo se non esiste
-      group = await Group.create({ groupId, groupName });
+      // Create the group if it doesn't exist
+      group = await Group.create({ groupId, groupName, participantsCount }); // Add participantsCount
     } else {
-      // Aggiornare i dati del gruppo se esiste
-      group.groupName = groupName;
+      // Update group data if it exists
+      if (participantsCount !== undefined) {
+        // Check if participantsCount is present
+        group.participantsCount = participantsCount; // Update participantsCount
+      }
+      group.groupName = groupName; // Update groupName if provided
       await group.save();
     }
 
-    req.group = group; // Aggiungi il gruppo alla richiesta per usi futuri
+    req.group = group; // Add the group to the request for future use
     next();
   } catch (err) {
     next(err);
