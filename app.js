@@ -7,6 +7,7 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -25,27 +26,15 @@ app.use(
   }),
 );
 
-// Allow CORS for POST requests on /api/v1/reports only from specific origin
-app.use(
-  '/api/v1/reports',
-  cors({
-    origin: 'https://telegrambottest-eacl.onrender.com',
-    methods: ['POST'],
-    credentials: true,
-  }),
-);
+// Rate limiting middleware
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes ************da aggiustare
+  max: 1000, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+});
 
-// Allow CORS for specific origins and methods for other routes
-app.use(
-  cors({
-    origin: [
-      'https://gogreenapp.vercel.app',
-      'https://58ad-37-161-174-167.ngrok-free.app',
-    ],
-    methods: ['GET', 'POST'],
-    credentials: true,
-  }),
-);
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
 
 app.use(cookieParser());
 app.use(helmet());
@@ -77,13 +66,3 @@ app.all('*', (req, res, next) => {
 app.use(globalErrorHandler);
 
 module.exports = { app };
-
-// momentaneamente disabilitato - da verificare
-// const limiter = rateLimit({
-//   max: 5000, //max request per hour
-//   windowMs: 60 * 60 * 1000,
-//   message: 'Too many request from this IP, please try again in an hour',
-// }); // 429 Error
-
-// momentaneamente disabilitato - da verificare
-// app.use('/api', limiter);

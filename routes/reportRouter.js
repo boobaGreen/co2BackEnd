@@ -1,7 +1,7 @@
-// reportRouter.js
 const express = require('express');
 const reportController = require('../controllers/reportController');
-const checkAndCreateGroup = require('../middlewares/checkAndCreateGroup'); // Importa il middleware
+const checkAndCreateGroup = require('../middlewares/checkAndCreateGroup');
+const checkOrigin = require('../middlewares/checkOrigin'); // Importa il middleware
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .get(reportController.getAllReport) // per tutti - verifica filtri
-  .post(checkAndCreateGroup, reportController.createReport); // Middleware inserito prima di createReport
+  .post(checkOrigin, checkAndCreateGroup, reportController.createReport); // Middleware inserito prima di createReport
 
 router
   .route('/:id')
