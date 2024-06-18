@@ -15,7 +15,6 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const testRouter = require('./routes/testRoutes');
 const reportRouter = require('./routes/reportRouter'); // Import the 'reportRouter' module
-const userBotRouter = require('./routes/userBotRouter'); // Import the 'reportRouter' module
 
 dotenv.config({ path: './config.env' });
 
@@ -75,8 +74,6 @@ app.use('/test', testRouter);
 // app.use('/api/v1/groups', groupRouter);
 app.use('/api/v1/reports', reportRouter);
 // app.use('/api/v1/stats', statRouter);
-
-app.use('/api/v1/getUserGroups', userBotRouter);
 
 // set route for all no match routes
 app.all('*', (req, res, next) => {

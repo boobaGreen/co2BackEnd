@@ -12,14 +12,15 @@ const checkAndCreateGroup = async (req, res, next) => {
       });
     }
 
-    let group = await Group.findById(groupId);
+    // Cerca il gruppo per groupId
+    let group = await Group.findOne({ groupId });
 
     if (!group) {
       // Creare il gruppo se non esiste
-      group = await Group.create({ _id: groupId, name: groupName });
+      group = await Group.create({ groupId, groupName });
     } else {
       // Aggiornare i dati del gruppo se esiste
-      group.name = groupName;
+      group.groupName = groupName;
       await group.save();
     }
 
