@@ -6,6 +6,7 @@ const checkOrigin = (req, res, next) => {
   if (req.method === 'POST') {
     const origin = req.get('origin');
     if (!allowedOrigins.includes(origin)) {
+      console.log('Forbidden-origin :', origin);
       return res.status(403).json({ status: 'fail', message: 'Forbidden' });
     }
   }
