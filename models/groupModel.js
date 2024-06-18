@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const donationSchema = require('./donationModel'); // Import the donation schema
+const donationSchema = require('./donationModel'); // Import the donation schema
 
 const groupSchema = new mongoose.Schema({
   groupId: {
@@ -49,48 +49,31 @@ const groupSchema = new mongoose.Schema({
     default: [],
     comment: 'List of usernames with admin privileges for the group',
   },
+  totalDonations: {
+    type: [donationSchema], // Array of donation documents based on the donation schema
+    default: [],
+    comment: 'Array of donation records for the group',
+  },
+  limits: {
+    type: {
+      hour: { type: Number, default: -1 }, // Default per property "-1" means :NO LIMIT
+      day: { type: Number, default: -1 },
+      week: { type: Number, default: -1 },
+      month: { type: Number, default: -1 },
+      year: { type: Number, default: -1 },
+    },
+  },
+  lastReportLimitsCounter: {
+    type: {
+      hour: { type: Number, default: 0 }, // Default per property 0 to start counters
+      day: { type: Number, default: 0 },
+      week: { type: Number, default: 0 },
+      month: { type: Number, default: 0 },
+      year: { type: Number, default: 0 },
+    },
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
 
 module.exports = Group;
-
-// totalDonations: {
-//   type: [donationSchema], // Array of donation documents based on the donation schema
-//   default: [],
-//   comment: 'Array of donation records for the group',
-// },
-// lastReportLimitsCounter: {
-//   type: {
-//     hour: { type: Number, default: 0 },
-//     day: { type: Number, default: 0 },
-//     week: { type: Number, default: 0 },
-//     month: { type: Number, default: 0 },
-//     year: { type: Number, default: 0 },
-//   },
-//   default: {
-//     hour: 0,
-//     day: 0,
-//     week: 0,
-//     month: 0,
-//     year: 0,
-//   },
-//   comment: 'Last report limits counters for hour, day, week, month, and year',
-// },
-// lifetimeLimits: {
-//   type: {
-//     hour: { type: Number, default: -1 }, // -1 no limit , 0 max limit , 10 10kb limit 100 100 kb limit
-//     day: { type: Number, default: -1 },
-//     week: { type: Number, default: -1 },
-//     month: { type: Number, default: -1 },
-//     year: { type: Number, default: -1 },
-//   },
-//   default: {
-//     hour: 0,
-//     day: 0,
-//     week: 0,
-//     month: 0,
-//     year: 0,
-//   },
-//   comment: 'Lifetime limits for hour, day, week, month, and year',
-// },
