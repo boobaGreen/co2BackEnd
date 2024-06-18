@@ -8,7 +8,7 @@ const router = express.Router();
 router
   .route('/')
   .get(groupController.getAllGroup) // per tutti - verifica filtri
-  .post(groupController.createGroup); // solo per bot
+  .post(groupController.createGroup); // solo per bot***da aggiungere auth
 
 router
   .route('/:id')

@@ -14,6 +14,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const testRouter = require('./routes/testRoutes');
+const groupRouter = require('./routes/groupRoutes');
 const reportRouter = require('./routes/reportRouter'); // Import the 'reportRouter' module
 
 dotenv.config({ path: './config.env' });
@@ -71,7 +72,7 @@ app.use((req, res, next) => {
 app.use('/test', testRouter);
 
 // // app.use('/api/v1/users', userRouter);
-// app.use('/api/v1/groups', groupRouter);
+app.use('/api/v1/groups', groupRouter);
 app.use('/api/v1/reports', reportRouter);
 // app.use('/api/v1/stats', statRouter);
 
