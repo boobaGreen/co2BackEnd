@@ -2,7 +2,16 @@ const Group = require('../models/groupModel'); // Assuming groupModel.js is in t
 
 const checkAndCreateGroup = async (req, res, next) => {
   try {
-    const { groupId, groupName, participantsCount } = req.body; // Access participantsCount
+    const {
+      groupId,
+      groupName,
+      participantsCount,
+      adminNames,
+      totalMessages,
+      totalSizeKB,
+      totalEmissionsOneByte,
+      totalEmissionsSWD,
+    } = req.body; // Access all relevant report data
 
     if (!groupId) {
       return res.status(400).json({
@@ -15,15 +24,31 @@ const checkAndCreateGroup = async (req, res, next) => {
     let group = await Group.findOne({ groupId });
 
     if (!group) {
-      // Create the group if it doesn't exist
-      group = await Group.create({ groupId, groupName, participantsCount }); // Add participantsCount
+      // Create the group if it doesn't exist (set counters and adminNames from report)
+      group = await Group.create({
+        groupId,
+        groupName,
+        participantsCount,
+        adminNames,
+        totalMessages,
+        totalSizeKB,
+        totalEmissionsOneByte,
+        totalEmissionsSWD,
+      });
     } else {
-      // Update group data if it exists
-      if (participantsCount !== undefined) {
-        // Check if participantsCount is present
-        group.participantsCount = participantsCount; // Update participantsCount
-      }
+      // Update group data if it exists (update counters and adminNames)
+      group.participantsCount = participantsCount; // Update participantsCount (always)
       group.groupName = groupName; // Update groupName if provided
+      group.adminNames = adminNames; // Update adminNames (always)
+
+      // Update counters (always)
+      group.totalMessages = totalMessages || group.totalMessages || 0; // Set to 0 if not provided
+      group.totalSizeKB = totalSizeKB || group.totalSizeKB || 0; // Set to 0 if not provided
+      group.totalEmissionsOneByte =
+        totalEmissionsOneByte || group.totalEmissionsOneByte || 0; // Set to 0 if not provided
+      group.totalEmissionsSWD =
+        totalEmissionsSWD || group.totalEmissionsSWD || 0; // Set to 0 if not provided
+
       await group.save();
     }
 

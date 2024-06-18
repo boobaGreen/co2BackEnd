@@ -18,38 +18,38 @@ const groupSchema = new mongoose.Schema({
     required: true,
     comment: 'Number of participants in the group',
   },
+  totalMessages: {
+    type: Number,
+    default: 0,
+    comment: 'Total number of messages across all reports for the group',
+  },
+  totalSizeKB: {
+    type: Number,
+    default: 0,
+    comment: 'Total size in KB of all reports for the group',
+  },
+  totalEmissionsOneByte: {
+    type: Number,
+    default: 0,
+    comment:
+      'Total emissions (One Byte Method) across all reports for the group',
+  },
+  totalEmissionsSWD: {
+    type: Number,
+    default: 0,
+    comment: 'Total emissions (SWD Method) across all reports for the group',
+  },
+  lastReportTimestamp: {
+    type: Date,
+    default: Date.now,
+    comment: 'Timestamp of the most recent report for the group',
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
 
 module.exports = Group;
 
-// totalMessages: {
-//   type: Number,
-//   default: 0,
-//   comment: 'Total number of messages across all reports for the group',
-// },
-// totalSizeKB: {
-//   type: Number,
-//   default: 0,
-//   comment: 'Total size in KB of all reports for the group',
-// },
-// totalEmissionsOneByte: {
-//   type: Number,
-//   default: 0,
-//   comment:
-//     'Total emissions (One Byte Method) across all reports for the group',
-// },
-// totalEmissionsSWD: {
-//   type: Number,
-//   default: 0,
-//   comment: 'Total emissions (SWD Method) across all reports for the group',
-// },
-// lastReportTimestamp: {
-//   type: Date,
-//   default: Date.now,
-//   comment: 'Timestamp of the most recent report for the group',
-// },
 // totalDonations: {
 //   type: [donationSchema], // Array of donation documents based on the donation schema
 //   default: [],
