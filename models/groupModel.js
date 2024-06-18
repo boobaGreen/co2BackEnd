@@ -44,6 +44,11 @@ const groupSchema = new mongoose.Schema({
     default: Date.now,
     comment: 'Timestamp of the most recent report for the group',
   },
+  adminNames: {
+    type: [String], // Array of strings representing admin usernames
+    default: [],
+    comment: 'List of usernames with admin privileges for the group',
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
