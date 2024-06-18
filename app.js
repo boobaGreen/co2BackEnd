@@ -21,7 +21,45 @@ dotenv.config({ path: './config.env' });
 
 const app = express();
 //Abilita CORS per tutte le richieste
-app.use(cors());
+// app.use(cors());
+
+// Allow CORS for all origins and methods for specific routes
+// app.use(
+//   '/public-api',
+//   cors({
+//     origin: '*',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   }),
+// );
+
+// Allow CORS for GET requests on all routes
+app.use(
+  cors({
+    methods: ['GET'],
+  }),
+);
+
+// Allow CORS for specific origins and methods for reports route (POST only)
+app.use(
+  '/api/v1/reports',
+  cors({
+    origin: 'https://telegrambottest-eacl.onrender.com',
+    methods: ['POST'],
+    credentials: true,
+  }),
+);
+
+// Allow CORS for specific origins and methods for other routes (except reports)
+app.use(
+  cors({
+    origin: [
+      'https://gogreenapp.vercel.app',
+      'https://58ad-37-161-174-167.ngrok-free.app',
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true,
+  }),
+);
 
 app.use(cookieParser()); // Middleware per il parsing dei cookie
 
