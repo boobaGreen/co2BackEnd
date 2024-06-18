@@ -55,21 +55,57 @@ const groupSchema = new mongoose.Schema({
     comment: 'Array of donation records for the group',
   },
   limits: {
-    type: {
-      hour: { type: Number, default: -1 }, // Default per property "-1" means :NO LIMIT
-      day: { type: Number, default: -1 },
-      week: { type: Number, default: -1 },
-      month: { type: Number, default: -1 },
-      year: { type: Number, default: -1 },
+    hour: {
+      type: Number,
+      default: -1,
+      comment: 'limit for 1 hour traffic in kb : -1 for NO LIMIT',
+    },
+    day: {
+      type: Number,
+      default: -1,
+      comment: 'limit for 1 day traffic in kb : -1 for NO LIMIT',
+    },
+    week: {
+      type: Number,
+      default: -1,
+      comment: 'limit for 1 week traffic in kb : -1 for NO LIMIT',
+    },
+    month: {
+      type: Number,
+      default: -1,
+      comment: 'limit for 1 month traffic in kb : -1 for NO LIMIT',
+    },
+    year: {
+      type: Number,
+      default: -1,
+      comment: 'limit for 1 year traffic in kb : -1 for NO LIMIT',
     },
   },
   lastReportLimitsCounter: {
-    type: {
-      hour: { type: Number, default: 0 }, // Default per property 0 to start counters
-      day: { type: Number, default: 0 },
-      week: { type: Number, default: 0 },
-      month: { type: Number, default: 0 },
-      year: { type: Number, default: 0 },
+    hour: {
+      type: Number,
+      default: 0,
+      comment: 'counter for 1 hour limit in kb',
+    },
+    day: {
+      type: Number,
+      default: 0,
+      comment: 'counter for 1 day limit in kb',
+    },
+    week: {
+      type: Number,
+      default: 0,
+      comment: 'counter for 1 week limit in kb',
+    },
+    month: {
+      type: Number,
+      default: 0,
+      comment: 'counter for 1 month limit in kb',
+    },
+    year: {
+      type: Number,
+      default: 0,
+      comment: 'counter for 1 year limit in kb',
     },
   },
 });
