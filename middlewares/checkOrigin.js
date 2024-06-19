@@ -1,4 +1,4 @@
-const allowedOrigins = ['https://telegrambottest-eacl.onrender.com'];
+const allowedOrigins = ['supersegretissimo'];
 
 const checkOrigin = (req, res, next) => {
   if (req.method === 'POST') {
