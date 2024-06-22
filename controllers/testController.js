@@ -7,7 +7,7 @@ exports.test = (req, res, next) => {
   };
 
   // SEND RESPONSE
-  console.log('test ok! utc');
+  console.log('test ok! jwt ');
   res.status(200).json({
     status: 'success',
     data: report, // Include the report object in data

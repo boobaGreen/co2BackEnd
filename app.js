@@ -14,6 +14,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const testRouter = require('./routes/testRoutes');
 const groupRouter = require('./routes/groupRoutes');
 const reportRouter = require('./routes/reportRouter');
+const telegramRouter = require('./routes/telegramRouter'); // Importa il nuovo router
 
 dotenv.config({ path: './config.env' });
 
@@ -22,13 +23,13 @@ const app = express();
 // Allow CORS for GET requests on all routes
 app.use(
   cors({
-    methods: ['GET'],
+    methods: ['GET', 'POST'], // Aggiungi anche 'POST' per supportare la callback di Telegram
   }),
 );
 
 // Rate limiting middleware
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes ************da aggiustare
+  windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000, // limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
 });
@@ -58,11 +59,14 @@ app.use((req, res, next) => {
 app.use('/test', testRouter);
 app.use('/api/v1/groups', groupRouter);
 app.use('/api/v1/reports', reportRouter);
+app.use('/telegram', telegramRouter); // Usa il router per le rotte di Telegram
 
+// Gestione delle rotte non trovate
 app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server `, 404));
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
+// Gestione degli errori globali
 app.use(globalErrorHandler);
 
 module.exports = { app };
