@@ -7,7 +7,7 @@ const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = ['https://6b98-5-90-138-45.ngrok-free.app'];
 
 // const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
-const secretKey = 'your_secret_key'; // Chiave segreta salvata nelle variabili di ambiente
+const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
 
 // Middleware per verificare l'autorizzazione Telegram
 const checkTelegramAuthorization = async (req, res, next) => {
