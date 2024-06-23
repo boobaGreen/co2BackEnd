@@ -1,11 +1,13 @@
 /* eslint-disable camelcase */
-const bcrypt = require('bcryptjs');
+const CryptoJS = require('crypto-js');
 const AppError = require('../utils/appError');
 
 // Array di origini consentite
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = ['https://6b98-5-90-138-45.ngrok-free.app'];
-const secret = process.env.TELEGRAM_BOT_TOKEN;
+
+// const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
+const secretKey = 'your_secret_key'; // Chiave segreta salvata nelle variabili di ambiente
 
 // Middleware per verificare l'autorizzazione Telegram
 const checkTelegramAuthorization = async (req, res, next) => {
@@ -43,24 +45,27 @@ const checkTelegramAuthorization = async (req, res, next) => {
   }
 
   // Estrai i dati necessari dalla richiesta
+  // eslint-disable-next-line camelcase
   const { auth_date, first_name, id, username, photo_url, hash } = req.body;
 
   try {
-    // Costruisci la stringa dati per l'hashing
-    const dataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
-    console.log('dataString:', dataString);
-    const saltRounds = 10;
-    const calculatedHash = await bcrypt.hash(dataString + secret, saltRounds);
-    console.log('calculetedhash', calculatedHash);
-    console.log('hash from fe', hash);
-    // Verifica se il hash ricevuto corrisponde ai dati inviati
-    const match = await bcrypt.compare(dataString + secret, hash);
-    console.log('match', match);
-    if (!match) {
-      throw new AppError('Telegram authentication failed. Invalid hash.', 401);
+    // Decrittografa i dati ricevuti con AES
+    const bytes = CryptoJS.AES.decrypt(hash, secretKey);
+    const decryptedDataString = bytes.toString(CryptoJS.enc.Utf8);
+
+    // Costruisci la stringa dati attesa per il confronto
+    const expectedDataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
+    console.log('Decrypted data:', decryptedDataString);
+    console.log('Expected data:', expectedDataString);
+    // Confronta i dati decrittografati con i dati attesi
+    if (decryptedDataString !== expectedDataString) {
+      throw new AppError(
+        'Telegram authentication failed. Decrypted data does not match expected data.',
+        401,
+      );
     }
 
-    console.log('Hash verified successfully.');
+    console.log('Decryption and verification successful.');
 
     // Passa al middleware successivo
     next();
