@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); // Importa il modello User corretto
@@ -69,26 +68,29 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     .sort()
     .map((key) => `${key}=${data[key]}`)
     .join('\n');
+  console.log('checkString : ', checkString);
 
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   console.log('botToken : ', botToken);
 
-  const hmacKey = crypto
+  // Calcola la chiave segreta correttamente
+  const secretKey = crypto
     .createHmac('sha256', 'WebAppData')
-    .update(Buffer.from(botToken, 'utf8'))
+    .update(botToken)
     .digest();
-  console.log('hmacKey : ', hmacKey);
+  console.log('secretKey : ', secretKey);
 
-  const hmac = crypto.createHmac('sha256', hmacKey);
-  console.log('hmac : ', hmac);
-
+  const hmac = crypto.createHmac('sha256', secretKey);
   hmac.update(checkString);
-  console.log('checkString : ', checkString);
+  console.log('hmac : ', hmac);
 
   const computedHash = hmac.digest();
   console.log('computedHash : ', computedHash);
 
   if (!crypto.timingSafeEqual(computedHash, originalHash)) {
+    console.log('HMAC mismatch');
+    console.log('Original Hash: ', originalHash.toString('hex'));
+    console.log('Computed Hash: ', computedHash.toString('hex'));
     return next(
       new AppError('Telegram authentication failed. HMAC mismatch.', 401),
     );
@@ -103,6 +105,7 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     user = await User.create({
       telegramId: id,
       userName: username,
+      // eslint-disable-next-line camelcase
       displayName: first_name,
     });
   } else {

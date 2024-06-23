@@ -1,7 +1,7 @@
 exports.test = (req, res, next) => {
   // Create a report object
   const report = {
-    message: 'Test successful! ex git 2334',
+    message: 'Test successful! stackover',
     timestamp: Date.now(), // Get current timestamp
     // You can add more details to the report object as needed
   };
