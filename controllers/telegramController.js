@@ -40,6 +40,35 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+// Funzione per verificare i dati iniziali ricevuti da Telegram
+const verifyTelegramWebAppData = (telegramInitData) => {
+  const initData = new URLSearchParams(telegramInitData);
+  const hash = initData.get('hash');
+  initData.delete('hash');
+
+  // Seřadíme klíče a vytvoříme data-check-string
+  const dataToCheck = [...initData.entries()]
+    .map(([key, value]) => `${key}=${decodeURIComponent(value)}`)
+    .sort()
+    .join('\n');
+
+  // Vytvoříme HMAC-SHA-256 podpis pro bot token s konstantou "WebAppData"
+  const secretKey = crypto
+    .createHmac('sha256', 'WebAppData')
+    .update(process.env.TELEGRAM_BOT_TOKEN)
+    .digest();
+  const computedHash = crypto
+    .createHmac('sha256', secretKey)
+    .update(dataToCheck)
+    .digest('hex');
+
+  console.log('Data to check:', dataToCheck);
+  console.log('Computed hash:', computedHash);
+  console.log('Provided hash:', hash);
+
+  return computedHash === hash;
+};
+
 // Controller per gestire la callback di autenticazione Telegram
 exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   const { id, first_name, username, hash } = req.body;
@@ -52,47 +81,11 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     );
   }
 
-  const originalHash = Buffer.from(hash, 'hex');
-  console.log('originalHash : ', originalHash);
+  const isValid = verifyTelegramWebAppData(req.body); // Verifica i dati ricevuti da Telegram
 
-  // Validazione del dato hash con HMAC
-  const data = {
-    auth_date: req.body.auth_date,
-    first_name,
-    id,
-    username,
-  };
-  console.log('data : ', data);
-
-  const checkString = Object.keys(data)
-    .sort()
-    .map((key) => `${key}=${data[key]}`)
-    .join('\n');
-  console.log('checkString : ', checkString);
-
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  console.log('botToken : ', botToken);
-
-  // Calcola la chiave segreta correttamente
-  const secretKey = crypto
-    .createHmac('sha256', 'WebAppData')
-    .update(botToken)
-    .digest();
-  console.log('secretKey : ', secretKey);
-
-  const hmac = crypto.createHmac('sha256', secretKey);
-  hmac.update(checkString);
-  console.log('hmac : ', hmac);
-
-  const computedHash = hmac.digest();
-  console.log('computedHash : ', computedHash);
-
-  if (!crypto.timingSafeEqual(computedHash, originalHash)) {
-    console.log('HMAC mismatch');
-    console.log('Original Hash: ', originalHash.toString('hex'));
-    console.log('Computed Hash: ', computedHash.toString('hex'));
+  if (!isValid) {
     return next(
-      new AppError('Telegram authentication failed. HMAC mismatch.', 401),
+      new AppError('Telegram authentication failed. Invalid data.', 401),
     );
   }
 
