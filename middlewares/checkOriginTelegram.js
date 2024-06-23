@@ -33,7 +33,7 @@ const checkOriginTelegram = (req, res, next) => {
     const { id, first_name, username, photo_url, auth_date, hash } = req.body;
 
     // Calcola l'HMAC utilizzando la chiave segreta del tuo bot Telegram
-    const secret = 'your_telegram_bot_secret'; // Sostituisci con la tua chiave segreta del bot Telegram
+    const secret = '7317510692:AAF20M_I-Gz8g8PCnbE3fPjCnwRM9cKF784'; // Sostituisci con la tua chiave segreta del bot Telegram
     const data = `${id}${first_name}${username}${photo_url}${auth_date}`;
     const hmac = crypto.createHmac('sha256', secret);
     hmac.update(data);
