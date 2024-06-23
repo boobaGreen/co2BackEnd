@@ -44,16 +44,17 @@ const createSendToken = (user, statusCode, res) => {
 // Controller per gestire la callback di autenticazione Telegram
 exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   const { id, first_name, username } = req.body;
-
+  console.log('telegramAuthCallback');
+  console.log('req.body : ', req.body);
   // Verifica se x-telegram-auth è presente e corretto
+  console.log('req.headers : ', req.headers);
   if (!req.headers['x-telegram-auth']) {
     return next(
       new AppError('Telegram authentication failed. HMAC missing.', 401),
     );
   }
-
   const originalHash = Buffer.from(req.headers['x-telegram-auth'], 'hex');
-
+  console.log('originalHash : ', originalHash);
   // Verifica se originalHash è definito e non vuoto
   if (!originalHash || originalHash.length === 0) {
     return next(
@@ -68,21 +69,25 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     id,
     username,
   };
-
+  console.log('data : ', data);
   const checkString = Object.keys(data)
     .sort()
     .map((key) => `${key}=${data[key]}`)
     .join('\n');
 
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  console.log('botToken : ', botToken);
   const hmacKey = crypto
     .createHmac('sha256', 'WebAppData')
     .update(Buffer.from(botToken, 'utf8'))
     .digest();
-
+  console.log('hmacKey : ', hmacKey);
   const hmac = crypto.createHmac('sha256', hmacKey);
+  console.log('hmac : ', hmac);
   hmac.update(checkString);
+  console.log('checkString : ', checkString);
   const computedHash = hmac.digest();
+  console.log('computedHash : ', computedHash);
 
   if (!crypto.timingSafeEqual(computedHash, originalHash)) {
     return next(
@@ -92,7 +97,7 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
 
   // Cerca l'utente nel database per telegramId
   let user = await User.findOne({ telegramId: id });
-
+  console.log('user : ', user);
   if (!user) {
     // Se l'utente non esiste, crea un nuovo utente nel database
     user = await User.create({
