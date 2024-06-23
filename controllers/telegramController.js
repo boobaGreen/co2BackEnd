@@ -76,14 +76,17 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   console.log('req.body : ', req.body);
 
   if (!hash) {
+    console.log('Telegram authentication failed. HMAC missing.');
     return next(
       new AppError('Telegram authentication failed. HMAC missing.', 401),
     );
   }
 
   const isValid = verifyTelegramWebAppData(req.body); // Verifica i dati ricevuti da Telegram
+  console.log('Verification result:', isValid);
 
   if (!isValid) {
+    console.log('Telegram authentication failed. Invalid data.');
     return next(
       new AppError('Telegram authentication failed. Invalid data.', 401),
     );
@@ -91,9 +94,10 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
 
   // Cerca l'utente nel database per telegramId
   let user = await User.findOne({ telegramId: id });
-  console.log('user : ', user);
+  console.log('User found in database:', user);
 
   if (!user) {
+    console.log('User not found in database. Creating new user.');
     // Se l'utente non esiste, crea un nuovo utente nel database
     user = await User.create({
       telegramId: id,
@@ -101,6 +105,7 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
       displayName: first_name,
     });
   } else {
+    console.log('User found in database. Updating user details.');
     // Se l'utente esiste, aggiorna il nome utente e il nome visualizzato
     user.userName = username;
     user.displayName = first_name;
