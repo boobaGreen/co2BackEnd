@@ -1,9 +1,13 @@
 const express = require('express');
+const telegramAuthController = require('../controllers/telegramController');
+const checkOriginTelegram = require('../middlewares/checkOriginTelegram'); // Importa il middleware
 
 const router = express.Router();
-const { telegramAuthCallback } = require('../controllers/telegramController');
 
-// Route per la callback di autenticazione Telegram
-router.post('/', telegramAuthCallback);
+router.post(
+  '/callback',
+  checkOriginTelegram,
+  telegramAuthController.telegramAuthCallback,
+);
 
 module.exports = router;

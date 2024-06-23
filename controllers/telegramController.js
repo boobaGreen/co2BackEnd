@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); // Importa il modello User corretto
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const verifyTelegramWebAppData = require('../utils/verifyHMAC'); // Importa la funzione di verifica
 
 // Funzione per generare il token JWT
 const signToken = (_id) => {
@@ -50,16 +49,6 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   if (!hash) {
     return next(
       new AppError('Telegram authentication failed. HMAC missing.', 401),
-    );
-  }
-
-  // Verifica i dati con la funzione verifyTelegramWebAppData
-  const isVerified = verifyTelegramWebAppData(req.body);
-
-  if (!isVerified) {
-    console.log('HMAC mismatch');
-    return next(
-      new AppError('Telegram authentication failed. HMAC mismatch.', 401),
     );
   }
 
