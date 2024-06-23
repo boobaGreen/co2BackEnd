@@ -41,21 +41,12 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-// Funzione per verificare l'autenticità dei dati tramite HMAC
-const verifyHMAC = (data, signature) => {
-  const secret = process.env.TELEGRAM_HMAC_SECRET; // Chiave segreta condivisa
-  const hmac = crypto.createHmac('sha256', secret);
-  hmac.update(data);
-  const computedSignature = hmac.digest('hex');
-  return computedSignature === signature;
-};
-
 // Controller per gestire la callback di autenticazione Telegram
 exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   const { id, first_name, username } = req.body;
 
   // Validazione del dato hash con HMAC
-  const checkString =
+  const dataCheckString =
     `${process.env.TELEGRAM_BOT_TOKEN}\n` +
     `auth_date=${req.body.auth_date}\n` +
     `first_name=${first_name}\n` +
@@ -63,7 +54,21 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     `username=${username}`;
   const signature = req.headers['x-telegram-auth'];
 
-  if (!verifyHMAC(checkString, signature)) {
+  // Generazione della chiave segreta HMAC come combinazione di botTokenData e botToken
+  const botTokenData = 'WebAppData';
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const hmacSecret = crypto
+    .createHmac('sha256', botTokenData)
+    .update(botToken)
+    .digest('hex');
+
+  // Calcolo della firma HMAC
+  const calculatedHash = crypto
+    .createHmac('sha256', hmacSecret)
+    .update(dataCheckString)
+    .digest('hex');
+
+  if (calculatedHash !== signature) {
     return next(
       new AppError('Telegram authentication failed. HMAC mismatch.', 401),
     );
