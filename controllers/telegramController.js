@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 require('dotenv').config();
-const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); // Importa il modello User corretto
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const verifyTelegramWebAppData = require('../utils/verifyHMAC'); // Importa la funzione di verifica
 
 // Funzione per generare il token JWT
 const signToken = (_id) => {
@@ -39,35 +39,6 @@ const createSendToken = (user, statusCode, res) => {
       user,
     },
   });
-};
-
-// Funzione per verificare i dati ricevuti da Telegram con HMAC
-const verifyTelegramWebAppData = (telegramInitData) => {
-  const initData = new URLSearchParams(telegramInitData);
-  const hash = initData.get('hash');
-  initData.delete('hash');
-
-  // Ordina le chiavi e crea la stringa data-check
-  const dataToCheck = [...initData.entries()]
-    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-    .map(([key, value]) => `${key}=${decodeURIComponent(value)}`)
-    .join('\n');
-
-  // Calcola l'HMAC-SHA-256 con il token del bot Telegram
-  const secretKey = crypto
-    .createHmac('sha256', 'WebAppData')
-    .update(process.env.TELEGRAM_BOT_TOKEN)
-    .digest('hex');
-  const computedHash = crypto
-    .createHmac('sha256', secretKey)
-    .update(dataToCheck)
-    .digest('hex');
-
-  console.log('Data to check:', dataToCheck);
-  console.log('Computed hash:', computedHash);
-  console.log('Provided hash:', hash);
-
-  return computedHash === hash;
 };
 
 // Controller per gestire la callback di autenticazione Telegram
