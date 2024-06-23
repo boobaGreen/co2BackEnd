@@ -9,7 +9,7 @@ const AppError = require('../utils/appError');
 // Funzione per generare il token JWT
 const signToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+    expiresIn: process.env.JWT_EXPIRES_IN_HOURS * 60 * 60 * 1000,
   });
 };
 
