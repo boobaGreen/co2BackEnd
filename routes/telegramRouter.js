@@ -5,7 +5,7 @@ const checkOriginTelegram = require('../middlewares/checkOriginTelegram'); // Im
 const router = express.Router();
 
 router.post(
-  '/callback',
+  '/',
   checkOriginTelegram,
   telegramAuthController.telegramAuthCallback,
 );
