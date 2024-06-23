@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+// checkTelegramAuthorization.js
+
 const crypto = require('crypto');
 const AppError = require('../utils/appError');
 
@@ -50,8 +52,9 @@ const checkTelegramAuthorization = (req, res, next) => {
 
   dataCheckArr.sort(); // Ordina le chiavi in ordine alfabetico
   const dataCheckString = dataCheckArr.join('\n');
+  console.log('dataCheckString :', dataCheckString);
 
-  // Calcola l'HMAC utilizzando la chiave segreta del bot Telegram
+  // Calcola l'HMAC utilizzando la chiave segreta del tuo bot Telegram
   const secret = '7317510692:AAF20M_I-Gz8g8PCnbE3fPjCnwRM9cKF784'; // Sostituisci con la tua chiave segreta del bot Telegram
   const hmac = crypto.createHmac('sha256', secret);
   hmac.update(dataCheckString, 'utf8');
