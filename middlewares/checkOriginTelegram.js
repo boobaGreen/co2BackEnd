@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 const bcrypt = require('bcryptjs');
-
 const AppError = require('../utils/appError');
 
+// Array di origini consentite
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = ['https://6b98-5-90-138-45.ngrok-free.app'];
 
+// Middleware per verificare l'autorizzazione Telegram
 const checkTelegramAuthorization = async (req, res, next) => {
   if (req.method !== 'POST') {
     return next(
@@ -17,13 +18,14 @@ const checkTelegramAuthorization = async (req, res, next) => {
   }
 
   // Verifica l'intestazione personalizzata
-  const customOrigin = req.get('X-Custom-Origin');
+  const customOrigin = req.headers['x-custom-origin'];
   console.log('Detected custom origin:', customOrigin);
 
   // Verifica l'intestazione reale dell'origine
-  const realOrigin = req.get('Origin');
+  const realOrigin = req.headers.origin;
   console.log('Detected real origin:', realOrigin);
 
+  // Verifica se l'origine personalizzata è consentita
   if (!customOrigin || !allowedCustomOrigins.includes(customOrigin)) {
     console.log('Forbidden custom origin:', customOrigin);
     return res
@@ -31,6 +33,7 @@ const checkTelegramAuthorization = async (req, res, next) => {
       .json({ status: 'fail', message: 'Forbidden custom origin' });
   }
 
+  // Verifica se l'origine reale è consentita
   if (!realOrigin || !allowedRealOrigins.includes(realOrigin)) {
     console.log('Forbidden real origin:', realOrigin);
     return res
@@ -54,9 +57,14 @@ const checkTelegramAuthorization = async (req, res, next) => {
   console.log('dataCheckString:', dataCheckString);
 
   try {
-    // Verifica se il hash ricevuto corrisponde ai dati inviati
+    // Costruisci la stringa dati per HMAC come nel frontend
     const dataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
-    const match = await bcrypt.compare(dataString, hash);
+
+    // Otteni la secret key dal tuo ambiente
+    const secret = process.env.TELEGRAM_BOT_SECRET;
+
+    // Verifica se il hash ricevuto corrisponde ai dati inviati
+    const match = await bcrypt.compare(dataString + secret, hash);
 
     if (!match) {
       throw new AppError('Telegram authentication failed. Invalid hash.', 401);
