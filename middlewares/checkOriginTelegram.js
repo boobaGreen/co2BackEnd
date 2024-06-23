@@ -1,13 +1,12 @@
 /* eslint-disable camelcase */
-// checkTelegramAuthorization.js
+const bcrypt = require('bcryptjs');
 
-const crypto = require('crypto');
 const AppError = require('../utils/appError');
 
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = ['https://6b98-5-90-138-45.ngrok-free.app'];
 
-const checkTelegramAuthorization = (req, res, next) => {
+const checkTelegramAuthorization = async (req, res, next) => {
   if (req.method !== 'POST') {
     return next(
       new AppError(
@@ -52,26 +51,24 @@ const checkTelegramAuthorization = (req, res, next) => {
 
   dataCheckArr.sort(); // Ordina le chiavi in ordine alfabetico
   const dataCheckString = dataCheckArr.join('\n');
-  console.log('dataCheckString :', dataCheckString);
+  console.log('dataCheckString:', dataCheckString);
 
-  // Calcola l'HMAC utilizzando la chiave segreta del tuo bot Telegram
-  const secret = '7317510692:AAF20M_I-Gz8g8PCnbE3fPjCnwRM9cKF784'; // Sostituisci con la tua chiave segreta del bot Telegram
-  const hmac = crypto.createHmac('sha256', secret);
-  hmac.update(dataCheckString, 'utf8');
-  const calculatedHash = hmac.digest('hex');
+  try {
+    // Verifica se il hash ricevuto corrisponde ai dati inviati
+    const dataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
+    const match = await bcrypt.compare(dataString, hash);
 
-  console.log('calculatedHash:', calculatedHash);
-  console.log('hash:', hash);
+    if (!match) {
+      throw new AppError('Telegram authentication failed. Invalid hash.', 401);
+    }
 
-  // Confronta hash calcolato con hash ricevuto
-  if (hash !== calculatedHash) {
-    return next(
-      new AppError('Telegram authentication failed. Invalid HMAC.', 401),
-    );
+    console.log('Hash verified successfully.');
+
+    // Passa al middleware successivo
+    next();
+  } catch (error) {
+    return next(new AppError('Error during authentication.', 401));
   }
-
-  // Passa al middleware successivo
-  next();
 };
 
 module.exports = checkTelegramAuthorization;
