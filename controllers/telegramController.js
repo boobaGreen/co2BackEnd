@@ -47,6 +47,7 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   console.log('telegramAuthCallback');
   console.log('req.body : ', req.body);
 
+  // hmac non viene verificato nella sua integrita' ma verifico che ci sia
   if (!hash) {
     return next(
       new AppError('Telegram authentication failed. HMAC missing.', 401),
