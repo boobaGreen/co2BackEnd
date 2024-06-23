@@ -53,7 +53,7 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     username,
   };
 
-  const originalHash = Buffer.from(req.headers['x-telegram-auth'], 'hex');
+  const originalHash = Buffer.from(req.headers['x-telegram-auth'], 'utf8');
   delete data.hash;
 
   const checkString = Object.keys(data)
