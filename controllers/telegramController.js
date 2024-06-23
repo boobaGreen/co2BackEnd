@@ -29,8 +29,8 @@ const createSendToken = (user, statusCode, res) => {
         : process.env.DEVELOPMENT_DOMAIN_FE,
     sameSite: 'none',
   };
-
-  res.cookie('jwt', token, cookieOptions);
+  console.log('token : ', token);
+  res.cookie('jwt-co2', token, cookieOptions);
 
   res.status(statusCode).json({
     status: 'success',
