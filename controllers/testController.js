@@ -1,7 +1,7 @@
 exports.test = (req, res, next) => {
   // Create a report object
   const report = {
-    message: 'Test successful! daje3',
+    message: 'Test successful! daje4',
     timestamp: Date.now(), // Get current timestamp
     // You can add more details to the report object as needed
   };
