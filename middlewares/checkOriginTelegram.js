@@ -5,6 +5,7 @@ const AppError = require('../utils/appError');
 // Array di origini consentite
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = ['https://6b98-5-90-138-45.ngrok-free.app'];
+const secret = process.env.TELEGRAM_BOT_TOKEN;
 
 // Middleware per verificare l'autorizzazione Telegram
 const checkTelegramAuthorization = async (req, res, next) => {
@@ -18,11 +19,11 @@ const checkTelegramAuthorization = async (req, res, next) => {
   }
 
   // Verifica l'intestazione personalizzata
-  const customOrigin = req.headers['x-custom-origin'];
+  const customOrigin = req.get('X-Custom-Origin');
   console.log('Detected custom origin:', customOrigin);
 
   // Verifica l'intestazione reale dell'origine
-  const realOrigin = req.headers.origin;
+  const realOrigin = req.get('Origin');
   console.log('Detected real origin:', realOrigin);
 
   // Verifica se l'origine personalizzata è consentita
@@ -44,24 +45,10 @@ const checkTelegramAuthorization = async (req, res, next) => {
   // Estrai i dati necessari dalla richiesta
   const { auth_date, first_name, id, username, photo_url, hash } = req.body;
 
-  // Costruisci la stringa dati per HMAC in ordine alfabetico
-  const dataCheckArr = [];
-  if (auth_date) dataCheckArr.push(`auth_date=${auth_date}`);
-  if (first_name) dataCheckArr.push(`first_name=${first_name}`);
-  if (id) dataCheckArr.push(`id=${id}`);
-  if (username) dataCheckArr.push(`username=${username}`);
-  if (photo_url) dataCheckArr.push(`photo_url=${photo_url}`);
-
-  dataCheckArr.sort(); // Ordina le chiavi in ordine alfabetico
-  const dataCheckString = dataCheckArr.join('\n');
-  console.log('dataCheckString:', dataCheckString);
-
   try {
-    // Costruisci la stringa dati per HMAC come nel frontend
+    // Costruisci la stringa dati per l'hashing
     const dataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
-
-    // Otteni la secret key dal tuo ambiente
-    const secret = process.env.TELEGRAM_BOT_SECRET;
+    console.log('dataString:', dataString);
 
     // Verifica se il hash ricevuto corrisponde ai dati inviati
     const match = await bcrypt.compare(dataString + secret, hash);
