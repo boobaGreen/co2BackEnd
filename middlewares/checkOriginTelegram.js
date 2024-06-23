@@ -49,7 +49,10 @@ const checkTelegramAuthorization = async (req, res, next) => {
     // Costruisci la stringa dati per l'hashing
     const dataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
     console.log('dataString:', dataString);
-
+    const saltRounds = 10;
+    const calculatedHash = await bcrypt.hash(dataString + secret, saltRounds);
+    console.log('calculetedhash', calculatedHash);
+    console.log('hash from fe', hash);
     // Verifica se il hash ricevuto corrisponde ai dati inviati
     const match = await bcrypt.compare(dataString + secret, hash);
 
