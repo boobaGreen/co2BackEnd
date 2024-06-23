@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 app.use('/test', testRouter);
 app.use('/api/v1/groups', groupRouter);
 app.use('/api/v1/reports', reportRouter);
-app.use('/telegram', telegramRouter); // Usa il router per le rotte di Telegram
+app.use('/api/v1/callback', telegramRouter); // Usa il router per le rotte di Telegram
 
 // Gestione delle rotte non trovate
 app.all('*', (req, res, next) => {
