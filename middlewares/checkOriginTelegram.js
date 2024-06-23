@@ -39,10 +39,11 @@ const checkOriginTelegram = (req, res, next) => {
 
   // Verifica HMAC
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
   const { auth_date, first_name, id, username, photo_url, hash } = req.body;
 
   // Costruisci la stringa dati per HMAC in ordine alfabetico
-  const data = `auth_date=${auth_date}\nfirst_name=${first_name}\nid=${id}\nusername=${username}`;
+  const data = `auth_date=${auth_date}\nfirst_name=${first_name}\nid=${id}\nphoto_url=${photo_url}\nusername=${username}`;
 
   // Calcola l'HMAC utilizzando la chiave segreta del tuo bot Telegram
   const secret = '7317510692:AAF20M_I-Gz8g8PCnbE3fPjCnwRM9cKF784'; // Sostituisci con la tua chiave segreta del bot Telegram
