@@ -47,13 +47,13 @@ const verifyTelegramWebAppData = (telegramInitData) => {
   const hash = initData.get('hash');
   initData.delete('hash');
 
-  // Seřadíme klíče a vytvoříme data-check-string
+  // Ordina le chiavi e crea la stringa data-check
   const dataToCheck = [...initData.entries()]
+    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
     .map(([key, value]) => `${key}=${decodeURIComponent(value)}`)
-    .sort()
     .join('\n');
 
-  // Vytvoříme HMAC-SHA-256 podpis pro bot token s konstantou "WebAppData"
+  // Calcola l'HMAC-SHA-256 con il token del bot Telegram
   const secretKey = crypto
     .createHmac('sha256', 'WebAppData')
     .update(process.env.TELEGRAM_BOT_TOKEN)
