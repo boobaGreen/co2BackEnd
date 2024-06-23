@@ -45,6 +45,22 @@ const createSendToken = (user, statusCode, res) => {
 exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   const { id, first_name, username } = req.body;
 
+  // Verifica se x-telegram-auth è presente e corretto
+  if (!req.headers['x-telegram-auth']) {
+    return next(
+      new AppError('Telegram authentication failed. HMAC missing.', 401),
+    );
+  }
+
+  const originalHash = Buffer.from(req.headers['x-telegram-auth'], 'hex');
+
+  // Verifica se originalHash è definito e non vuoto
+  if (!originalHash || originalHash.length === 0) {
+    return next(
+      new AppError('Telegram authentication failed. Invalid HMAC.', 401),
+    );
+  }
+
   // Validazione del dato hash con HMAC
   const data = {
     auth_date: req.body.auth_date,
@@ -52,9 +68,6 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     id,
     username,
   };
-
-  const originalHash = Buffer.from(req.headers['x-telegram-auth'], 'utf8');
-  delete data.hash;
 
   const checkString = Object.keys(data)
     .sort()
