@@ -105,7 +105,6 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     user = await User.create({
       telegramId: id,
       userName: username,
-      // eslint-disable-next-line camelcase
       displayName: first_name,
     });
   } else {
