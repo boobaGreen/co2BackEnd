@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+require('dotenv').config();
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); // Importa il modello User corretto
@@ -40,7 +41,7 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-// Funzione per verificare i dati iniziali ricevuti da Telegram
+// Funzione per verificare i dati ricevuti da Telegram con HMAC
 const verifyTelegramWebAppData = (telegramInitData) => {
   const initData = new URLSearchParams(telegramInitData);
   const hash = initData.get('hash');
@@ -56,7 +57,7 @@ const verifyTelegramWebAppData = (telegramInitData) => {
   const secretKey = crypto
     .createHmac('sha256', 'WebAppData')
     .update(process.env.TELEGRAM_BOT_TOKEN)
-    .digest();
+    .digest('hex');
   const computedHash = crypto
     .createHmac('sha256', secretKey)
     .update(dataToCheck)
@@ -76,37 +77,31 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   console.log('req.body : ', req.body);
 
   if (!hash) {
-    console.log('Telegram authentication failed. HMAC missing.');
     return next(
       new AppError('Telegram authentication failed. HMAC missing.', 401),
     );
   }
 
-  const isValid = verifyTelegramWebAppData(req.body); // Verifica i dati ricevuti da Telegram
-  console.log('Verification result:', isValid);
+  // Verifica i dati con la funzione verifyTelegramWebAppData
+  const isVerified = verifyTelegramWebAppData(req.body);
 
-  if (!isValid) {
-    console.log('Telegram authentication failed. Invalid data.');
+  if (!isVerified) {
+    console.log('HMAC mismatch');
     return next(
-      new AppError('Telegram authentication failed. Invalid data.', 401),
+      new AppError('Telegram authentication failed. HMAC mismatch.', 401),
     );
   }
 
-  // Cerca l'utente nel database per telegramId
   let user = await User.findOne({ telegramId: id });
-  console.log('User found in database:', user);
+  console.log('user : ', user);
 
   if (!user) {
-    console.log('User not found in database. Creating new user.');
-    // Se l'utente non esiste, crea un nuovo utente nel database
     user = await User.create({
       telegramId: id,
       userName: username,
       displayName: first_name,
     });
   } else {
-    console.log('User found in database. Updating user details.');
-    // Se l'utente esiste, aggiorna il nome utente e il nome visualizzato
     user.userName = username;
     user.displayName = first_name;
     await user.save();
