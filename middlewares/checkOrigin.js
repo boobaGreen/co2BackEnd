@@ -1,6 +1,7 @@
 const allowedOrigins = ['supersegretissimo'];
 const checkOrigin = (req, res, next) => {
-  console.log('req per curl:', req);
+  console.log('req method:', req.method);
+  console.log('req.body:', req.body);
   if (req.method === 'POST') {
     console.log('Headers:', req.headers);
 
