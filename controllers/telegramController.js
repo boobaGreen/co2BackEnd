@@ -22,7 +22,7 @@ const createSendToken = (user, statusCode, res) => {
       Date.now() + process.env.JWT_EXPIRES_IN_HOURS * 60 * 60 * 1000,
     ),
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true, // Always set to true for HTTPS
     domain:
       process.env.NODE_ENV === 'production'
         ? process.env.PRODUCTION_DOMAIN_FE

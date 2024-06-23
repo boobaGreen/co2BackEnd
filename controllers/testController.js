@@ -1,7 +1,7 @@
 exports.test = (req, res, next) => {
   // Create a report object
   const report = {
-    message: 'Test successful! req.method check req curl',
+    message: 'Test successful! always secure true',
     timestamp: Date.now(), // Get current timestamp
     // You can add more details to the report object as needed
   };
