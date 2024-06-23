@@ -1,6 +1,6 @@
 const express = require('express');
 const telegramAuthController = require('../controllers/telegramController');
-const checkOriginTelegram = require('../middlewares/checkOriginTelegram'); // Importa il middleware
+const checkOriginTelegram = require('../middlewares/checkOriginTelegram'); // Assicurati che il percorso sia corretto
 
 const router = express.Router();
 
