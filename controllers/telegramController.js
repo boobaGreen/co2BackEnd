@@ -52,7 +52,8 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
     `id=${id}\n` +
     `username=${username}`;
   const secret = crypto.createHash('sha256').update(checkString).digest('hex');
-
+  console.log({ secret });
+  console.log({ hash });
   if (hash !== secret) {
     return next(
       new AppError('Telegram authentication failed. Hash mismatch.', 401),
