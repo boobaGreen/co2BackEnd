@@ -46,29 +46,32 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   const { id, first_name, username } = req.body;
 
   // Validazione del dato hash con HMAC
-  const dataCheckString =
-    `${process.env.TELEGRAM_BOT_TOKEN}\n` +
-    `auth_date=${req.body.auth_date}\n` +
-    `first_name=${first_name}\n` +
-    `id=${id}\n` +
-    `username=${username}`;
-  const signature = req.headers['x-telegram-auth'];
+  const data = {
+    auth_date: req.body.auth_date,
+    first_name,
+    id,
+    username,
+  };
 
-  // Generazione della chiave segreta HMAC come combinazione di botTokenData e botToken
-  const botTokenData = 'WebAppData';
+  const originalHash = Buffer.from(req.headers['x-telegram-auth'], 'hex');
+  delete data.hash;
+
+  const checkString = Object.keys(data)
+    .sort()
+    .map((key) => `${key}=${data[key]}`)
+    .join('\n');
+
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const hmacSecret = crypto
-    .createHmac('sha256', botTokenData)
-    .update(botToken)
-    .digest('hex');
+  const hmacKey = crypto
+    .createHmac('sha256', 'WebAppData')
+    .update(Buffer.from(botToken, 'utf8'))
+    .digest();
 
-  // Calcolo della firma HMAC
-  const calculatedHash = crypto
-    .createHmac('sha256', hmacSecret)
-    .update(dataCheckString)
-    .digest('hex');
+  const hmac = crypto.createHmac('sha256', hmacKey);
+  hmac.update(checkString);
+  const computedHash = hmac.digest();
 
-  if (calculatedHash !== signature) {
+  if (!crypto.timingSafeEqual(computedHash, originalHash)) {
     return next(
       new AppError('Telegram authentication failed. HMAC mismatch.', 401),
     );
