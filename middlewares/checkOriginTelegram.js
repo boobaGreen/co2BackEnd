@@ -55,7 +55,7 @@ const checkTelegramAuthorization = async (req, res, next) => {
     console.log('hash from fe', hash);
     // Verifica se il hash ricevuto corrisponde ai dati inviati
     const match = await bcrypt.compare(dataString + secret, hash);
-
+    console.log('match', match);
     if (!match) {
       throw new AppError('Telegram authentication failed. Invalid hash.', 401);
     }
