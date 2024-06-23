@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); // Importa il modello User corretto
@@ -40,23 +41,31 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+// Funzione per verificare l'autenticità dei dati tramite HMAC
+const verifyHMAC = (data, signature) => {
+  const secret = process.env.TELEGRAM_HMAC_SECRET; // Chiave segreta condivisa
+  const hmac = crypto.createHmac('sha256', secret);
+  hmac.update(data);
+  const computedSignature = hmac.digest('hex');
+  return computedSignature === signature;
+};
+
 // Controller per gestire la callback di autenticazione Telegram
 exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
-  const { id, first_name, username, hash } = req.body;
+  const { id, first_name, username } = req.body;
 
-  // Validazione del dato hash con il bot_token
+  // Validazione del dato hash con HMAC
   const checkString =
     `${process.env.TELEGRAM_BOT_TOKEN}\n` +
     `auth_date=${req.body.auth_date}\n` +
     `first_name=${first_name}\n` +
     `id=${id}\n` +
     `username=${username}`;
-  const secret = crypto.createHash('sha256').update(checkString).digest('hex');
-  console.log({ secret });
-  console.log({ hash });
-  if (hash !== secret) {
+  const signature = req.headers['x-telegram-auth'];
+
+  if (!verifyHMAC(checkString, signature)) {
     return next(
-      new AppError('Telegram authentication failed. Hash mismatch.', 401),
+      new AppError('Telegram authentication failed. HMAC mismatch.', 401),
     );
   }
 
