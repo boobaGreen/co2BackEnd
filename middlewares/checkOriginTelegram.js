@@ -4,7 +4,7 @@ const AppError = require('../utils/appError');
 
 // Array di origini consentite
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
-const allowedRealOrigins = ['https://6b98-5-90-138-45.ngrok-free.app'];
+const allowedRealOrigins = ['https://8205-5-90-138-45.ngrok-free.app'];
 
 // const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
 const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
