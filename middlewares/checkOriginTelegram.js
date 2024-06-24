@@ -7,6 +7,7 @@ const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = [
   'https://co2-frontend-five.vercel.app',
   'https://gogreenappco2.netlify.app',
+  'https://a7e8-5-90-138-45.ngrok-free.app',
 ];
 
 // const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
