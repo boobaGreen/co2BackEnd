@@ -4,7 +4,9 @@ const AppError = require('../utils/appError');
 
 // Array di origini consentite
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
-const allowedRealOrigins = ['https://gogreenappco2.netlify.app'];
+const allowedRealOrigins = [
+  'https://co2-frontend-1ho5dymlp-boobagreens-projects.vercel.app',
+];
 
 // const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
 const secretKey = process.env.SECRET_KEY; // Chiave segreta salvata nelle variabili di ambiente
