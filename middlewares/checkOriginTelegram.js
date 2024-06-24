@@ -5,7 +5,7 @@ const AppError = require('../utils/appError');
 // Array di origini consentite
 const allowedCustomOrigins = ['secretorginipasswordtomorrowdevfromfe'];
 const allowedRealOrigins = [
-  'https://co2-frontend-1ho5dymlp-boobagreens-projects.vercel.app',
+  'https://co2-frontend-five.vercel.app',
   'https://gogreenappco2.netlify.app',
 ];
 
