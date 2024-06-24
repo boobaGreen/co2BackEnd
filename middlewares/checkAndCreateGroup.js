@@ -9,8 +9,8 @@ const checkAndCreateGroup = async (req, res, next) => {
       adminNames,
       totalMessages,
       totalSizeKB,
-      totalEmissionsOneByte,
-      totalEmissionsSWD,
+      emissionsOneByteMethod,
+      emissionsSWDMethod,
     } = req.body; // Access all relevant report data
     console.log('req.body', req.body);
     if (!groupId) {
@@ -32,8 +32,8 @@ const checkAndCreateGroup = async (req, res, next) => {
         adminNames,
         totalMessages: totalMessages || 0, // Set to 0 if not provided
         totalSizeKB: totalSizeKB || 0, // Set to 0 if not provided
-        totalEmissionsOneByte: totalEmissionsOneByte || 0, // Set to 0 if not provided
-        totalEmissionsSWD: totalEmissionsSWD || 0, // Set to 0 if not provided
+        totalEmissionsOneByte: emissionsOneByteMethod || 0, // Set to 0 if not provided
+        totalEmissionsSWD: emissionsSWDMethod || 0, // Set to 0 if not provided
       });
     } else {
       // Update group data if it exists
@@ -42,10 +42,10 @@ const checkAndCreateGroup = async (req, res, next) => {
       group.adminNames = adminNames; // Update adminNames (always)
 
       // Update counters (sum with existing values)
-      group.totalMessages += totalMessages || 0; // Add report value (or 0 if not provided)
-      group.totalSizeKB += totalSizeKB || 0; // Add report value (or 0 if not provided)
-      group.totalEmissionsOneByte += totalEmissionsOneByte || 0; // Add report value (or 0 if not provided)
-      group.totalEmissionsSWD += totalEmissionsSWD || 0; // Add report value (or 0 if not provided)
+      group.totalMessages += totalMessages; // Add report value (or 0 if not provided)
+      group.totalSizeKB += totalSizeKB; // Add report value (or 0 if not provided)
+      group.totalEmissionsOneByte += emissionsOneByteMethod; // Add report value (or 0 if not provided)
+      group.totalEmissionsSWD += emissionsSWDMethod; // Add report value (or 0 if not provided)
       group.lastReportTimestamp = Date.now(); // Update lastReportTimestamp
       await group.save();
     }
