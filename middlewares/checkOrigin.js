@@ -1,13 +1,8 @@
 const allowedOrigins = ['supersegretissimo'];
 const checkOrigin = (req, res, next) => {
-  console.log('req method:', req.method);
-  console.log('req.body:', req.body);
   if (req.method === 'POST') {
-    console.log('Headers:', req.headers);
-
     // Verifica l'intestazione personalizzata
     const origin = req.get('X-Custom-Origin');
-    console.log('Detected origin:', origin);
 
     if (!origin || !allowedOrigins.includes(origin)) {
       console.log('Forbidden origin:', origin);

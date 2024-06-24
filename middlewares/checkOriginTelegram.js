@@ -22,15 +22,12 @@ const checkTelegramAuthorization = async (req, res, next) => {
 
   // Verifica l'intestazione personalizzata
   const customOrigin = req.get('X-Custom-Origin');
-  console.log('Detected custom origin:', customOrigin);
 
   // Verifica l'intestazione reale dell'origine
   const realOrigin = req.get('Origin');
-  console.log('Detected real origin:', realOrigin);
 
   // Verifica se l'origine personalizzata è consentita
   if (!customOrigin || !allowedCustomOrigins.includes(customOrigin)) {
-    console.log('Forbidden custom origin:', customOrigin);
     return res
       .status(403)
       .json({ status: 'fail', message: 'Forbidden custom origin' });
@@ -38,7 +35,6 @@ const checkTelegramAuthorization = async (req, res, next) => {
 
   // Verifica se l'origine reale è consentita
   if (!realOrigin || !allowedRealOrigins.includes(realOrigin)) {
-    console.log('Forbidden real origin:', realOrigin);
     return res
       .status(403)
       .json({ status: 'fail', message: 'Forbidden real origin' });
@@ -55,8 +51,7 @@ const checkTelegramAuthorization = async (req, res, next) => {
 
     // Costruisci la stringa dati attesa per il confronto
     const expectedDataString = `${auth_date}${first_name}${id}${username}${photo_url}`;
-    console.log('Decrypted data:', decryptedDataString);
-    console.log('Expected data:', expectedDataString);
+
     // Confronta i dati decrittografati con i dati attesi
     if (decryptedDataString !== expectedDataString) {
       throw new AppError(
@@ -64,8 +59,6 @@ const checkTelegramAuthorization = async (req, res, next) => {
         401,
       );
     }
-
-    console.log('Decryption and verification successful.');
 
     // Passa al middleware successivo
     next();

@@ -29,7 +29,7 @@ const createSendToken = (user, statusCode, res) => {
         : process.env.DEVELOPMENT_DOMAIN_FE,
     sameSite: 'none',
   };
-  console.log('token : ', token);
+
   res.cookie('jwt-co2', token, cookieOptions);
 
   res.status(statusCode).json({
@@ -44,8 +44,6 @@ const createSendToken = (user, statusCode, res) => {
 // Controller per gestire la callback di autenticazione Telegram
 exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   const { id, first_name, username, hash } = req.body;
-  console.log('telegramAuthCallback');
-  console.log('req.body : ', req.body);
 
   // hmac non viene verificato nella sua integrita' ma verifico che ci sia
   if (!hash) {
@@ -55,7 +53,6 @@ exports.telegramAuthCallback = catchAsync(async (req, res, next) => {
   }
 
   let user = await User.findOne({ telegramId: id });
-  console.log('user : ', user);
 
   if (!user) {
     user = await User.create({
