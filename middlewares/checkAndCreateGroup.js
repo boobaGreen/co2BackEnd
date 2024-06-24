@@ -46,7 +46,7 @@ const checkAndCreateGroup = async (req, res, next) => {
       group.totalSizeKB += totalSizeKB || 0; // Add report value (or 0 if not provided)
       group.totalEmissionsOneByte += totalEmissionsOneByte || 0; // Add report value (or 0 if not provided)
       group.totalEmissionsSWD += totalEmissionsSWD || 0; // Add report value (or 0 if not provided)
-
+      group.lastReportTimestamp = Date.now(); // Update lastReportTimestamp
       await group.save();
     }
 
