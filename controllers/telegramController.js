@@ -27,7 +27,7 @@ const createSendToken = (user, statusCode, res) => {
       process.env.NODE_ENV === 'production'
         ? process.env.PRODUCTION_DOMAIN_FE
         : process.env.DEVELOPMENT_DOMAIN_FE,
-    sameSite: 'none',
+    sameSite: 'None',
   };
 
   res.cookie('jwt-co2', token, cookieOptions);
