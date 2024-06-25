@@ -39,7 +39,19 @@ const donationSchema = new mongoose.Schema({
   },
   unitType: {
     type: String,
-    required: true,
+    default: 'tree',
+    comment: 'Type of unit (e.g., tree)',
+  },
+  locationProject: {
+    type: String,
+    comment: 'Type of unit (e.g., tree)',
+  },
+  idProject: {
+    type: String,
+    comment: 'Type of unit (e.g., tree)',
+  },
+  nameProject: {
+    type: String,
     comment: 'Type of unit (e.g., tree)',
   },
 });
