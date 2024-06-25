@@ -6,6 +6,8 @@ const User = require('../models/userModel'); // Assicurati di importare il model
 
 // Funzione per verificare il JWT
 exports.verifyJWT = async (req, res, next) => {
+  console.log('Verifica JWT...'); // Solo per scopi di debug
+  console.log(req.headers); // Solo per scopi di debug
   // 1) Ottenere il token e verificare la sua presenza
   let token;
   if (
@@ -14,7 +16,7 @@ exports.verifyJWT = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
-
+  console.log({ token });
   if (!token) {
     return res.status(401).json({
       success: false,
