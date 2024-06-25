@@ -12,7 +12,7 @@ const checkAndCreateGroup = async (req, res, next) => {
       emissionsOneByteMethod,
       emissionsSWDMethod,
     } = req.body; // Access all relevant report data
-    console.log('req.body', req.body);
+
     if (!groupId) {
       return res.status(400).json({
         status: 'fail',

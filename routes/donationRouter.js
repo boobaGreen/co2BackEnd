@@ -3,7 +3,7 @@ const donationController = require('../controllers/donationController');
 // const authController = require('../controllers/authController');
 
 const router = express.Router();
-
+console.log('donation router');
 // Routes for reports
 router
   .route('/')
