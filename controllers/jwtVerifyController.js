@@ -27,7 +27,7 @@ exports.verifyJWT = async (req, res, next) => {
   try {
     // 2) Verifica il token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
+    console.log({ decoded });
     // 3) Verifica se l'utente esiste ancora
     const currentUser = await User.findById(decoded.userId);
 
