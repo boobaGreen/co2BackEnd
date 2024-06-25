@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const donationSchema = require('./donationModel'); // Import the donation schema
 
 const groupSchema = new mongoose.Schema({
   groupId: {
@@ -45,71 +44,71 @@ const groupSchema = new mongoose.Schema({
     comment: 'Timestamp of the most recent report for the group',
   },
   adminNames: {
-    type: [String], // Array of strings representing admin usernames
+    type: [String],
     default: [],
     comment: 'List of usernames with admin privileges for the group',
   },
-  totalDonations: {
-    type: [donationSchema], // Array of donation documents based on the donation schema
-    default: [],
-    comment: 'Array of donation records for the group',
-  },
+  donations: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Donation',
+      comment: 'References to donations made by the group members',
+    },
+  ],
   limits: {
     hour: {
       type: Number,
       default: -1,
-      comment: 'limit for 1 hour traffic in kb : -1 for NO LIMIT',
+      comment: 'Limit for 1 hour traffic in KB : -1 for NO LIMIT',
     },
     day: {
       type: Number,
       default: -1,
-      comment: 'limit for 1 day traffic in kb : -1 for NO LIMIT',
+      comment: 'Limit for 1 day traffic in KB : -1 for NO LIMIT',
     },
     week: {
       type: Number,
       default: -1,
-      comment: 'limit for 1 week traffic in kb : -1 for NO LIMIT',
+      comment: 'Limit for 1 week traffic in KB : -1 for NO LIMIT',
     },
     month: {
       type: Number,
       default: -1,
-      comment: 'limit for 1 month traffic in kb : -1 for NO LIMIT',
+      comment: 'Limit for 1 month traffic in KB : -1 for NO LIMIT',
     },
     year: {
       type: Number,
       default: -1,
-      comment: 'limit for 1 year traffic in kb : -1 for NO LIMIT',
+      comment: 'Limit for 1 year traffic in KB : -1 for NO LIMIT',
     },
   },
   lastReportLimitsCounter: {
     hour: {
       type: Number,
       default: 0,
-      comment: 'counter for 1 hour limit in kb',
+      comment: 'Counter for 1 hour limit in KB',
     },
     day: {
       type: Number,
       default: 0,
-      comment: 'counter for 1 day limit in kb',
+      comment: 'Counter for 1 day limit in KB',
     },
     week: {
       type: Number,
       default: 0,
-      comment: 'counter for 1 week limit in kb',
+      comment: 'Counter for 1 week limit in KB',
     },
     month: {
       type: Number,
       default: 0,
-      comment: 'counter for 1 month limit in kb',
+      comment: 'Counter for 1 month limit in KB',
     },
     year: {
       type: Number,
       default: 0,
-      comment: 'counter for 1 year limit in kb',
+      comment: 'Counter for 1 year limit in KB',
     },
   },
 });
 
-const Group = mongoose.model('Group', groupSchema);
-
-module.exports = Group;
+module.exports = mongoose.model('Group', groupSchema);

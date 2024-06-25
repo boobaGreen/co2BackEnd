@@ -13,11 +13,12 @@ const rateLimit = require('express-rate-limit');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
-const testRouter = require('./routes/testRoutes');
-const groupRouter = require('./routes/groupRoutes');
-const reportRouter = require('./routes/reportRouter');
+const testRouter = require('./routes/testRoutes'); // Router per le rotte di test
+const groupRouter = require('./routes/groupRoutes'); // Router per le rotte dei gruppi
+const reportRouter = require('./routes/reportRouter'); // Router per le rotte dei report
 const telegramRouter = require('./routes/telegramRouter'); // Router per le rotte di Telegram
-const verifyJwtRouter = require('./routes/veifyJwtRouter'); // Nuovo router per la verifica JWT
+const verifyJwtRouter = require('./routes/verifyJwtRouter'); // Nuovo router per la verifica JWT
+const donationRouter = require('./routes/donationRouter'); // Nuovo router per le donazioni
 
 dotenv.config({ path: './config.env' });
 
@@ -47,7 +48,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '100kb' }));
 app.use(mongoSanitize());
 app.use(xss());
 app.use(compression());
@@ -64,6 +65,7 @@ app.use('/api/v1/groups', groupRouter);
 app.use('/api/v1/reports', reportRouter);
 app.use('/api/v1/callback', telegramRouter); // Router per le rotte di Telegram
 app.use('/api/v1/verify-jwt', verifyJwtRouter); // Aggiungi il nuovo router per la verifica JWT
+app.use('/api/v1/donation', donationRouter); // Aggiungi il nuovo router per la verifica JWT
 
 // Gestione delle rotte non trovate
 app.all('*', (req, res, next) => {

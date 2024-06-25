@@ -1,31 +1,131 @@
 const mongoose = require('mongoose');
 
 const donationSchema = new mongoose.Schema({
-  donorName: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    comment: 'User ID of the donor',
+  },
+  groupId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+    required: true,
+    comment: 'User ID of the donor',
+  },
+  units: {
+    type: Number,
+    required: true,
+    comment: 'Number of units (trees)',
+  },
+  code: {
     type: String,
     required: true,
-    comment: 'Name of the donor',
+    comment: 'Unique code associated with the donation',
   },
-  treesPlanted: {
-    type: Number,
-    required: true,
-    comment: 'Number of trees planted as a result of the donation',
+  project: {
+    id: {
+      type: String,
+      comment: 'ID of the project',
+    },
+    name: {
+      type: String,
+      comment: 'Name of the project',
+    },
+    country: {
+      type: String,
+      comment: 'Country of the project',
+    },
+    purpose: {
+      type: String,
+      comment: 'Purpose of the project',
+    },
   },
-  donationDate: {
+  donor: {
+    firstname: {
+      type: String,
+      comment: 'First name of the donor',
+    },
+    lastname: {
+      type: String,
+      comment: 'Last name of the donor',
+    },
+    email: {
+      type: String,
+      comment: 'Email address of the donor',
+    },
+    address: {
+      type: String,
+      comment: 'Address of the donor',
+    },
+    city: {
+      type: String,
+      comment: 'City of the donor',
+    },
+    zipCode: {
+      type: String,
+      comment: 'ZIP code of the donor',
+    },
+    country: {
+      type: String,
+      comment: 'Country of the donor',
+    },
+    companyname: {
+      type: String,
+      comment: 'Company name of the donor (if applicable)',
+    },
+    tin: {
+      type: String,
+      comment: 'Tax identification number of the donor (if applicable)',
+    },
+  },
+  destination: {
+    id: {
+      type: String,
+      comment: 'ID of the destination',
+    },
+    type: {
+      type: String,
+      comment: 'Type of the destination',
+    },
+    country: {
+      type: String,
+      comment: 'Country of the destination',
+    },
+    currency: {
+      type: String,
+      comment: 'Currency of the destination',
+    },
+    purpose: {
+      type: String,
+      comment: 'Purpose of the destination',
+    },
+    name: {
+      type: String,
+      comment: 'Name of the destination',
+    },
+  },
+  paymentDate: {
     type: Date,
+    required: [true, 'Donation must have a payment date'],
     default: Date.now,
-    comment: 'Date of the donation',
+    comment: 'Date and time of the payment',
   },
-  donationAmountEUR: {
+  amount: {
     type: Number,
     required: true,
-    comment: 'Amount donated in Euros',
+    comment: 'Amount of the payment',
   },
-  co2Equivalent: {
-    type: Number,
+  currency: {
+    type: String,
     required: true,
-    comment: 'CO2 equivalent reduction achieved by the donation',
+    comment: 'Currency of the payment',
+  },
+  unitType: {
+    type: String,
+    required: true,
+    comment: 'Type of unit (e.g., tree)',
   },
 });
 
-module.exports = donationSchema;
+module.exports = mongoose.model('Donation', donationSchema);
