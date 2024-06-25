@@ -13,95 +13,13 @@ const donationSchema = new mongoose.Schema({
   },
   units: {
     type: Number,
-    required: true,
+    required: [true, 'a donation must have a number of units'],
     comment: 'Number of units (trees)',
   },
-  code: {
-    type: String,
-    required: true,
-    comment: 'Unique code associated with the donation',
-  },
-  project: {
-    id: {
-      type: String,
-      comment: 'ID of the project',
-    },
-    name: {
-      type: String,
-      comment: 'Name of the project',
-    },
-    country: {
-      type: String,
-      comment: 'Country of the project',
-    },
-    purpose: {
-      type: String,
-      comment: 'Purpose of the project',
-    },
-  },
-  donor: {
-    firstname: {
-      type: String,
-      comment: 'First name of the donor',
-    },
-    lastname: {
-      type: String,
-      comment: 'Last name of the donor',
-    },
-    email: {
-      type: String,
-      comment: 'Email address of the donor',
-    },
-    address: {
-      type: String,
-      comment: 'Address of the donor',
-    },
-    city: {
-      type: String,
-      comment: 'City of the donor',
-    },
-    zipCode: {
-      type: String,
-      comment: 'ZIP code of the donor',
-    },
-    country: {
-      type: String,
-      comment: 'Country of the donor',
-    },
-    companyname: {
-      type: String,
-      comment: 'Company name of the donor (if applicable)',
-    },
-    tin: {
-      type: String,
-      comment: 'Tax identification number of the donor (if applicable)',
-    },
-  },
-  destination: {
-    id: {
-      type: String,
-      comment: 'ID of the destination',
-    },
-    type: {
-      type: String,
-      comment: 'Type of the destination',
-    },
-    country: {
-      type: String,
-      comment: 'Country of the destination',
-    },
-    currency: {
-      type: String,
-      comment: 'Currency of the destination',
-    },
-    purpose: {
-      type: String,
-      comment: 'Purpose of the destination',
-    },
-    name: {
-      type: String,
-      comment: 'Name of the destination',
-    },
+  donationId: {
+    type: Number,
+    required: [true, 'a donation must have a donation ID'],
+    comment: 'ID of the donation',
   },
   paymentDate: {
     type: Date,
