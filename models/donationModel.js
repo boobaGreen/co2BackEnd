@@ -17,7 +17,7 @@ const donationSchema = new mongoose.Schema({
     comment: 'Number of units (trees)',
   },
   donationId: {
-    type: Number,
+    type: String,
     required: [true, 'a donation must have a donation ID'],
     comment: 'ID of the donation',
   },
