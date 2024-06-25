@@ -9,9 +9,9 @@ const router = express.Router();
 // Routes for reports
 router
   .route('/')
-  .get(authController, reportController.getAllReport) // per tutti - verifica filtri
+  .get(authController.verifyJWT, reportController.getAllReport) // per tutti - verifica filtri
   .post(checkOrigin, checkAndCreateGroup, reportController.createReport); // Middleware inserito prima di createReport
 
-router.route('/:id').get(authController, reportController.getReport); // per tutti - verifica filtri
+router.route('/:id').get(authController.verifyJWT, reportController.getReport); // per tutti - verifica filtri
 
 module.exports = router;

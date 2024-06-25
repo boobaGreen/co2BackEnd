@@ -8,9 +8,11 @@ const router = express.Router();
 // Routes for reports
 router
   .route('/')
-  .get(authController, donationController.getAllDonation) // per tutti - verifica filtri
-  .post(authController, donationController.createDonation); // solo per bot
+  .get(authController.verifyJWT, donationController.getAllDonation) // per tutti - verifica filtri
+  .post(authController.verifyJWT, donationController.createDonation); // solo per bot
 
-router.route('/:id').get(authController, donationController.getDonation); // per tutti - verifica filtri
+router
+  .route('/:id')
+  .get(authController.verifyJWT, donationController.getDonation); // per tutti - verifica filtri
 
 module.exports = router;
