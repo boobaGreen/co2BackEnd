@@ -8,7 +8,7 @@ const router = express.Router();
 router
   .route('/')
   .get(donationController.getAllDonation) // per tutti - verifica filtri
-  .post(donationController.createDonation); // solo per bot
+  .post(donationController.createDonation); //
 
 router.route('/:id').get(donationController.getDonation); // per tutti - verifica filtri
 
