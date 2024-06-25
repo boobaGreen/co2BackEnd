@@ -8,9 +8,8 @@ const donationSchema = new mongoose.Schema({
     comment: 'User ID of the donor',
   },
   groupId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Group',
-    required: true,
+    type: String,
+    required: [true, 'a donation must have a group ID'],
     comment: 'User ID of the donor',
   },
   units: {
