@@ -9,8 +9,4 @@ router.route('/generic').post(limitController.createLimitGeneric);
 
 router.route('/generic/:chatId').delete(limitController.deleteLimitGeneric);
 
-router.route('/detailed').post(limitController.createLimitDetailed);
-
-router.route('/detailed/:chatId').delete(limitController.deleteLimitDetailed);
-
 module.exports = router;

@@ -55,60 +55,13 @@ const groupSchema = new mongoose.Schema({
       comment: 'References to donations made by the group members',
     },
   ],
-  limits: {
-    hour: {
+  limits: [
+    {
       type: Number,
-      default: -1,
-      comment: 'Limit for 1 hour traffic in KB : -1 for NO LIMIT',
+      comment:
+        'References to the limits set by the group admins in KB for each message',
     },
-    day: {
-      type: Number,
-      default: -1,
-      comment: 'Limit for 1 day traffic in KB : -1 for NO LIMIT',
-    },
-    week: {
-      type: Number,
-      default: -1,
-      comment: 'Limit for 1 week traffic in KB : -1 for NO LIMIT',
-    },
-    month: {
-      type: Number,
-      default: -1,
-      comment: 'Limit for 1 month traffic in KB : -1 for NO LIMIT',
-    },
-    year: {
-      type: Number,
-      default: -1,
-      comment: 'Limit for 1 year traffic in KB : -1 for NO LIMIT',
-    },
-  },
-  lastReportLimitsCounter: {
-    hour: {
-      type: Number,
-      default: 0,
-      comment: 'Counter for 1 hour limit in KB',
-    },
-    day: {
-      type: Number,
-      default: 0,
-      comment: 'Counter for 1 day limit in KB',
-    },
-    week: {
-      type: Number,
-      default: 0,
-      comment: 'Counter for 1 week limit in KB',
-    },
-    month: {
-      type: Number,
-      default: 0,
-      comment: 'Counter for 1 month limit in KB',
-    },
-    year: {
-      type: Number,
-      default: 0,
-      comment: 'Counter for 1 year limit in KB',
-    },
-  },
+  ],
 });
 
 module.exports = mongoose.model('Group', groupSchema);
