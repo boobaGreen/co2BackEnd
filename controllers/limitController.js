@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 const axios = require('axios');
-const Group = require('../models/groupModel'); // Assicurati che il percorso sia corretto
+const Group = require('../models/groupModel');
 
-// Controller per creare un limite generico per il gruppo
 exports.createLimitGeneric = async (req, res, next) => {
   try {
     const { chatId, limit } = req.body;
@@ -14,9 +14,9 @@ exports.createLimitGeneric = async (req, res, next) => {
     const response = await axios.post(endpoint, { chatId, limit });
 
     // Aggiorna il modello Group con il nuovo limite
-    await Group.findOneAndUpdate(
+    const updatedGroup = await Group.findOneAndUpdate(
       { groupId: chatId },
-      { $addToSet: { limits: limit } }, // Aggiungi il limite se non è già presente
+      { limits: limit }, // Assegna direttamente il nuovo limite come numero
       { new: true, upsert: true }, // Crea un nuovo documento se non esiste
     );
 
@@ -27,7 +27,6 @@ exports.createLimitGeneric = async (req, res, next) => {
   }
 };
 
-// Controller per cancellare tutti i limiti generici per il gruppo
 exports.deleteLimitGeneric = async (req, res, next) => {
   try {
     const { chatId } = req.params;
@@ -35,20 +34,21 @@ exports.deleteLimitGeneric = async (req, res, next) => {
       return res.status(400).json({ error: 'chatId è richiesto.' });
     }
 
-    // Rimuovi i limiti generici dal bot
+    // Rimuovi il limite generico dal bot
     const endpoint = `${process.env.BOT_API_URL}/groupLimitGeneric/${chatId}`;
     const response = await axios.delete(endpoint);
 
-    // Rimuovi tutti i limiti dal modello Group
-    await Group.findOneAndUpdate(
+    // Rimuovi il limite dal modello Group
+    const updatedGroup = await Group.findOneAndUpdate(
       { groupId: chatId },
-      { $set: { limits: [] } }, // Rimuovi tutti i limiti
+      { limits: -1 }, // Assegna un valore di default per indicare l'assenza di limite
+      { new: true }, // Ottieni il documento aggiornato
     );
 
     res.status(response.status).json(response.data);
   } catch (error) {
     console.error(
-      'Errore durante la cancellazione dei limiti generici:',
+      'Errore durante la cancellazione del limite generico:',
       error,
     );
     next(error);
