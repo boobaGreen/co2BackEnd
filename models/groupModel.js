@@ -55,13 +55,12 @@ const groupSchema = new mongoose.Schema({
       comment: 'References to donations made by the group members',
     },
   ],
-  limits: [
-    {
-      type: Number,
-      comment:
-        'References to the limits set by the group admins in KB for each message',
-    },
-  ],
+  limits: {
+    type: Number,
+    default: -1,
+    comment:
+      'References to the limits set by the group admins in KB for each message',
+  },
 });
 
 module.exports = mongoose.model('Group', groupSchema);
