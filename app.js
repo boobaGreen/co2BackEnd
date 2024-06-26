@@ -28,7 +28,7 @@ const app = express();
 // Allow CORS for GET and POST requests on all routes
 app.use(
   cors({
-    methods: ['GET', 'POST'], // Aggiungi anche 'POST' per supportare la callback di Telegram
+    methods: ['GET', 'POST', 'DELETE'], // Aggiungi anche 'POST' per supportare la callback di Telegram
   }),
 );
 
