@@ -19,6 +19,7 @@ const reportRouter = require('./routes/reportRouter'); // Router per le rotte de
 const telegramRouter = require('./routes/telegramRouter'); // Router per le rotte di Telegram
 const verifyJwtRouter = require('./routes/verifyJwtRouter'); // Nuovo router per la verifica JWT
 const donationRouter = require('./routes/donationRouter'); // Nuovo router per le donazioni
+const limitRouter = require('./routes/limitRouter'); // Nuovo router per le donazioni
 
 dotenv.config({ path: './config.env' });
 
@@ -66,6 +67,7 @@ app.use('/api/v1/reports', reportRouter);
 app.use('/api/v1/callback', telegramRouter); // Router per le rotte di Telegram
 app.use('/api/v1/verify-jwt', verifyJwtRouter); // Aggiungi il nuovo router per la verifica JWT
 app.use('/api/v1/donation', donationRouter); // Aggiungi il nuovo router per la verifica JWT
+app.use('/api/v1/limit', limitRouter); // Aggiungi il nuovo router per la verifica JWT
 
 // Gestione delle rotte non trovate
 app.all('*', (req, res, next) => {
