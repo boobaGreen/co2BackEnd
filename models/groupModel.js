@@ -55,7 +55,7 @@ const groupSchema = new mongoose.Schema({
       comment: 'References to donations made by the group members',
     },
   ],
-  limits: {
+  groupLimits: {
     type: Number,
     default: -1,
     comment:
