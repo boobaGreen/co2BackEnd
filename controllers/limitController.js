@@ -16,7 +16,7 @@ exports.createLimitGeneric = async (req, res, next) => {
     // Aggiorna il modello Group con il nuovo limite
     const updatedGroup = await Group.findOneAndUpdate(
       { groupId: chatId },
-      { limits: limit }, // Assegna direttamente il nuovo limite come numero
+      { groupLimits: limit }, // Assegna direttamente il nuovo limite come numero
       { new: true, upsert: true }, // Crea un nuovo documento se non esiste
     );
 
@@ -41,7 +41,7 @@ exports.deleteLimitGeneric = async (req, res, next) => {
     // Rimuovi il limite dal modello Group
     const updatedGroup = await Group.findOneAndUpdate(
       { groupId: chatId },
-      { limits: -1 }, // Assegna un valore di default per indicare l'assenza di limite
+      { groupLimits: -1 }, // Assegna un valore di default per indicare l'assenza di limite
       { new: true }, // Ottieni il documento aggiornato
     );
 
