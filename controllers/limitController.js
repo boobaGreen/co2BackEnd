@@ -11,7 +11,7 @@ exports.createLimitGeneric = async (req, res, next) => {
     if (!chatId || !limit) {
       return res.status(400).json({ error: 'chatId e limit sono richiesti.' });
     }
-
+    console.log('process.env.BOT_API_URL', process.env.BOT_API_URL);
     const endpoint = `${process.env.BOT_API_URL}/groupLimitGeneric`;
     const response = await axios.post(endpoint, { chatId, limit });
 
