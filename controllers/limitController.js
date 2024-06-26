@@ -6,7 +6,8 @@ const axios = require('axios');
 exports.createLimitGeneric = async (req, res, next) => {
   try {
     const { chatId, limit } = req.body;
-
+    console.log('chatId', chatId);
+    console.log('limit', limit);
     if (!chatId || !limit) {
       return res.status(400).json({ error: 'chatId e limit sono richiesti.' });
     }
