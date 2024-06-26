@@ -47,7 +47,7 @@ exports.createLimitDetailed = async (req, res, next) => {
 exports.deleteLimitGeneric = async (req, res, next) => {
   try {
     const { chatId } = req.params;
-
+    console.log('************************************chatId', chatId);
     const endpoint = `${process.env.BOT_API_URL}/groupLimitGeneric/${chatId}`;
     const response = await axios.delete(endpoint);
 
