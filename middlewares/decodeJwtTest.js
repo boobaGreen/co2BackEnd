@@ -9,7 +9,7 @@ const decodeJWT = (req, res, next) => {
 
   // Estrapola il token dal formato "Bearer <token>"
   const token = authHeader.split(' ')[1];
-
+  console.log('Token:', token);
   try {
     // Decodifica il JWT utilizzando la chiave segreta (se necessario)
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
