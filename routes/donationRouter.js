@@ -8,10 +8,7 @@ console.log('donation router');
 router
   .route('/')
   .get(donationController.getAllDonation) // per tutti - verifica filtri
-  .post(
-    donationController.convertUserIdToObjectId,
-    donationController.createDonation,
-  ); // aggiungi il middleware qui
+  .post(donationController.createDonation); // aggiungi il middleware qui
 
 router.route('/:id').get(donationController.getDonation); // per tutti - verifica filtri
 
