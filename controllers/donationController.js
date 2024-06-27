@@ -11,12 +11,12 @@ const factory = require('./handlerFactory');
 // };
 
 // Middleware per convertire userId in ObjectId
-exports.convertUserIdToObjectId = (req, res, next) => {
-  console.log('req.body.userId test: ', req.body.userId);
+// exports.convertUserIdToObjectId = (req, res, next) => {
+//   console.log('req.body.userId test: ', req.body.userId);
 
-  //   console.log('req.body.userId dopo: ', req.body.userId);
-  next();
-};
+//   //   console.log('req.body.userId dopo: ', req.body.userId);
+//   next();
+// };
 exports.getAllDonation = factory.getAll(Donation);
 exports.getDonation = factory.getOne(Donation);
 exports.createDonation = factory.createOne(Donation);
