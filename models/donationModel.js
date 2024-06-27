@@ -22,6 +22,7 @@ const donationSchema = new mongoose.Schema({
   donationId: {
     type: String,
     required: [true, 'A donation must have a donation ID'],
+    unique: true, // Definizione del campo unique
     comment: 'ID of the donation',
   },
   paymentDate: {
