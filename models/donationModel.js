@@ -60,16 +60,18 @@ const donationSchema = new mongoose.Schema({
 });
 
 // Post-save middleware to update the group with the new donation
-donationSchema.post('save', async (doc, next) => {
+donationSchema.post('save', async (doc) => {
   try {
-    await Group.findOneAndUpdate(
-      { groupId: doc.groupId },
-      { $push: { donations: doc._id } },
-      { new: true, useFindAndModify: false },
-    );
-    next();
+    // Find the corresponding Group document by its _id
+    const group = await Group.findById(doc.groupId);
+
+    // If the group is found, push the new donation _id into its donations array
+    if (group) {
+      group.donations.push(doc._id);
+      await group.save();
+    }
   } catch (error) {
-    next(error);
+    console.error('Error updating group with new donation:', error);
   }
 });
 
