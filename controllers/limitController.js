@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const axios = require('axios');
 const Group = require('../models/groupModel');
+const isAdminMiddleware = require('../middlewares/isAdminMiddleware');
 
 exports.createLimitGeneric = async (req, res, next) => {
   try {
@@ -54,3 +55,8 @@ exports.deleteLimitGeneric = async (req, res, next) => {
     next(error);
   }
 };
+
+// Middleware isAdminMiddleware va applicato alla route di creazione del limite
+
+// Esporta anche deleteLimitGeneric e altri controller, se necessario
+module.exports = exports;
