@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Group = require('./groupModel'); // Assicurati che il percorso sia corretto
 
 const donationSchema = new mongoose.Schema({
   userId: {
@@ -54,6 +55,20 @@ const donationSchema = new mongoose.Schema({
     type: String,
     comment: 'Type of unit (e.g., tree)',
   },
+});
+
+// Post-save middleware to update the group with the new donation
+donationSchema.post('save', async (doc, next) => {
+  try {
+    await Group.findOneAndUpdate(
+      { groupId: doc.groupId },
+      { $push: { donations: doc._id } },
+      { new: true, useFindAndModify: false },
+    );
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = mongoose.model('Donation', donationSchema);

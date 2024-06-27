@@ -2,7 +2,6 @@ const Donation = require('../models/donationModel');
 //const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
-console.log(' creatdonation router');
 // exports.setUserIds = (req, res, next) => {
 //   //Allow nested routes
 //   if (!req.body.group) req.body.group = req.params.tourId;
