@@ -34,39 +34,12 @@ const reportSchema = new mongoose.Schema({
       message: 'Report must have at least one admin.',
     },
   },
+  groupReference: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+  },
 });
 
 const Report = mongoose.model('Report', reportSchema);
 
 module.exports = Report;
-
-// Funzione per creare un report
-// const createReport = async (data) => {
-//   try {
-//     const report = new Report({
-//       groupId: data.groupId,
-//       groupName: data.groupName,
-//       participantsCount: data.participantsCount,
-//       totalMessages: data.totalMessages,
-//       totalSizeKB: data.totalSizeKB,
-//       emissionsOneByteMethod: data.emissionsOneByteMethod,
-//       emissionsSWDMethod: data.emissionsSWDMethod,
-//       timestamp: moment().toDate(), // Usa moment per garantire UTC
-//     });
-//     await report.save();
-//     console.log('Report saved successfully:', report);
-//   } catch (error) {
-//     console.error('Error saving report:', error);
-//   }
-// };
-
-// Esempio di utilizzo
-// createReport({
-//   groupId: '123456',
-//   groupName: 'Test Group',
-//   participantsCount: 100,
-//   totalMessages: 50,
-//   totalSizeKB: 123.45,
-//   emissionsOneByteMethod: 0.1234567,
-//   emissionsSWDMethod: 0.2345678,
-// });
