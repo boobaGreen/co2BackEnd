@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Donation = require('../models/donationModel');
 //const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
@@ -9,6 +10,13 @@ const factory = require('./handlerFactory');
 //   next();
 // };
 
+// Middleware per convertire userId in ObjectId
+exports.convertUserIdToObjectId = (req, res, next) => {
+  if (req.body.userId && typeof req.body.userId === 'string') {
+    req.body.userId = mongoose.Types.ObjectId(req.body.userId);
+  }
+  next();
+};
 exports.getAllDonation = factory.getAll(Donation);
 exports.getDonation = factory.getOne(Donation);
 exports.createDonation = factory.createOne(Donation);

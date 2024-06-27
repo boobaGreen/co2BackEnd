@@ -3,7 +3,8 @@ const Group = require('./groupModel'); // Assicurati che il percorso sia corrett
 
 const donationSchema = new mongoose.Schema({
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
     comment: 'User ID of the donor',
   },
