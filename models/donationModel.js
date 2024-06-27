@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Group = require('./groupModel'); // Assicurati che il percorso sia corretto
+const Group = require('./groupModel');
 
 const donationSchema = new mongoose.Schema({
   userId: {
@@ -9,18 +9,19 @@ const donationSchema = new mongoose.Schema({
     comment: 'User ID of the donor',
   },
   groupId: {
-    type: String,
-    required: [true, 'a donation must have a group ID'],
-    comment: 'User ID of the donor',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+    required: [true, 'A donation must have a group ID'],
+    comment: 'Group ID of the donation',
   },
   units: {
     type: Number,
-    required: [true, 'a donation must have a number of units'],
+    required: [true, 'A donation must have a number of units'],
     comment: 'Number of units (trees)',
   },
   donationId: {
     type: String,
-    required: [true, 'a donation must have a donation ID'],
+    required: [true, 'A donation must have a donation ID'],
     comment: 'ID of the donation',
   },
   paymentDate: {
@@ -46,15 +47,15 @@ const donationSchema = new mongoose.Schema({
   },
   locationProject: {
     type: String,
-    comment: 'Type of unit (e.g., tree)',
+    comment: 'Location of the project',
   },
   idProject: {
     type: String,
-    comment: 'Type of unit (e.g., tree)',
+    comment: 'ID of the project',
   },
   nameProject: {
     type: String,
-    comment: 'Type of unit (e.g., tree)',
+    comment: 'Name of the project',
   },
 });
 

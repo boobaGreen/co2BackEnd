@@ -2,6 +2,9 @@
 const Donation = require('../models/donationModel');
 //const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const {
+  populateGroupReference,
+} = require('../middlewares/tranformGroupIdInObj');
 
 // exports.setUserIds = (req, res, next) => {
 //   //Allow nested routes
@@ -22,3 +25,6 @@ exports.getDonation = factory.getOne(Donation);
 exports.createDonation = factory.createOne(Donation);
 // exports.deleteGroup = factory.deleteOne(School);
 // exports.updateGroup = factory.updateOne(School);
+
+// Middleware per popolare groupId con riferimento a Group
+exports.setGroupReference = populateGroupReference;
