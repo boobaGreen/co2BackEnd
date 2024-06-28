@@ -41,14 +41,20 @@ exports.deleteLimitGeneric = async (req, res, next) => {
     const endpoint = `${process.env.BOT_API_URL}/groupLimitGeneric/${chatId}`;
     const response = await axios.delete(endpoint);
 
-    // Rimuovi il limite dal modello Group
-    const updatedGroup = await Group.findOneAndUpdate(
-      { groupId: chatId },
-      { groupLimits: -1 }, // Assegna un valore di default per indicare l'assenza di limite
-      { new: true }, // Ottieni il documento aggiornato
-    );
+    // Verifica lo stato della risposta dal server di backend
+    if (response.status === 204) {
+      // Rimuovi il limite dal modello Group solo se l'operazione è andata a buon fine
+      const updatedGroup = await Group.findOneAndUpdate(
+        { groupId: chatId },
+        { groupLimits: -1 }, // Assegna un valore di default per indicare l'assenza di limite
+        { new: true }, // Ottieni il documento aggiornato
+      );
 
-    res.status(204).json({ status: 'success' });
+      res.status(204).json({ status: 'success' });
+    } else {
+      // Se il server di backend non restituisce 204, gestisci l'errore di conseguenza
+      res.status(response.status).json(response.data);
+    }
   } catch (error) {
     console.error(
       'Errore durante la cancellazione del limite generico:',
@@ -58,7 +64,4 @@ exports.deleteLimitGeneric = async (req, res, next) => {
   }
 };
 
-// Middleware isAdminMiddleware va applicato alla route di creazione del limite
-
-// Esporta anche deleteLimitGeneric e altri controller, se necessario
 module.exports = exports;
