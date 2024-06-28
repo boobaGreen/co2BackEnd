@@ -42,7 +42,7 @@ exports.deleteLimitGeneric = async (req, res, next) => {
     const response = await axios.delete(endpoint);
     console.log('Response from bot:', response);
     // Verifica lo stato della risposta dal server di backend
-    if (response.status === 204) {
+    if (response.status === 200) {
       // Rimuovi il limite dal modello Group solo se l'operazione è andata a buon fine
       const updatedGroup = await Group.findOneAndUpdate(
         { groupId: chatId },
