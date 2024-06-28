@@ -31,7 +31,7 @@ exports.deleteLimitGeneric = async (req, res, next) => {
     }
   } catch (error) {
     console.error(
-      'Errore durante la cancellazione del limite generico:',
+      'Errore durante la cancellazione del limite generico: ',
       error,
     );
     next(error);
