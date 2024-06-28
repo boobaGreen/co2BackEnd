@@ -48,7 +48,7 @@ exports.deleteLimitGeneric = async (req, res, next) => {
       { new: true }, // Ottieni il documento aggiornato
     );
 
-    res.status(204).json({ status: 'success', data: null });
+    res.status(204).json({ status: 'success' });
   } catch (error) {
     console.error(
       'Errore durante la cancellazione del limite generico:',
