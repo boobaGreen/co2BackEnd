@@ -1,13 +1,33 @@
-/* eslint-disable no-unused-vars */
 const axios = require('axios');
 const Group = require('../models/groupModel');
-const isAdminMiddleware = require('../middlewares/isAdminMiddleware');
+const User = require('../models/userModel');
 
 exports.createLimitGeneric = async (req, res, next) => {
   try {
     const { chatId, limit } = req.body;
+    const userId = req.user._id;
+
     if (!chatId || !limit) {
       return res.status(400).json({ error: 'chatId e limit sono richiesti.' });
+    }
+
+    // Ottieni l'username dell'utente utilizzando l'ID dell'utente
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const { userName } = user;
+
+    // Verifica se l'utente è un amministratore del gruppo
+    const group = await Group.findOne({ groupId: chatId });
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    if (!group.adminNames.includes(userName)) {
+      return res
+        .status(403)
+        .json({ error: 'User is not an admin of the group' });
     }
 
     // Aggiorna il limite generico nel bot
@@ -15,6 +35,7 @@ exports.createLimitGeneric = async (req, res, next) => {
     const response = await axios.post(endpoint, { chatId, limit });
 
     // Aggiorna il modello Group con il nuovo limite
+    // eslint-disable-next-line no-unused-vars
     const updatedGroup = await Group.findOneAndUpdate(
       { groupId: chatId },
       { groupLimits: limit }, // Assegna direttamente il nuovo limite come numero
@@ -27,11 +48,33 @@ exports.createLimitGeneric = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.deleteLimitGeneric = async (req, res, next) => {
   try {
     const { chatId } = req.params;
+    const userId = req.user._id;
+
     if (!chatId) {
       return res.status(400).json({ error: 'chatId è richiesto.' });
+    }
+
+    // Ottieni l'username dell'utente utilizzando l'ID dell'utente
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const { userName } = user;
+
+    // Verifica se l'utente è un amministratore del gruppo
+    const group = await Group.findOne({ groupId: chatId });
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    if (!group.adminNames.includes(userName)) {
+      return res
+        .status(403)
+        .json({ error: 'User is not an admin of the group' });
     }
 
     // Rimuovi il limite generico dal bot
