@@ -40,7 +40,7 @@ exports.deleteLimitGeneric = async (req, res, next) => {
     // Rimuovi il limite generico dal bot
     const endpoint = `${process.env.BOT_API_URL}/groupLimitGeneric/${chatId}`;
     const response = await axios.delete(endpoint);
-
+    console.log('Response from bot:', response);
     // Verifica lo stato della risposta dal server di backend
     if (response.status === 204) {
       // Rimuovi il limite dal modello Group solo se l'operazione è andata a buon fine
