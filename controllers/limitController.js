@@ -23,7 +23,7 @@ exports.createLimitGeneric = async (req, res, next) => {
 
     res.status(response.status).json(response.data);
   } catch (error) {
-    console.error('Errore durante la creazione del limite generico:', error);
+    console.error('Errore durante la creazione del limite generico: ', error);
     next(error);
   }
 };
