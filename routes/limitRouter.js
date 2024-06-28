@@ -7,6 +7,12 @@ const decodedJWT = require('../middlewares/decodeJwtTest');
 
 const router = express.Router();
 
-router.route('/generic').post(decodedJWT, limitController.createLimitGeneric);
+router
+  .route('/generic')
+  .post(decodedJWT.decodeJWT, limitController.createLimitGeneric);
+
+router
+  .route('/generic/:chatId')
+  .delete(decodedJWT.decodeJWT, limitController.deleteLimitGeneric);
 
 module.exports = router;

@@ -31,6 +31,8 @@ exports.createLimitGeneric = async (req, res, next) => {
 exports.deleteLimitGeneric = async (req, res, next) => {
   try {
     const { chatId } = req.params;
+    console.log('Chat ID:', chatId);
+    console.log('Request params:', req.params);
     if (!chatId) {
       return res.status(400).json({ error: 'chatId è richiesto.' });
     }
