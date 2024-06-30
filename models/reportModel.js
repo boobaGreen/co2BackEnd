@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment-timezone');
-
-// Configura il fuso orario predefinito
-moment.tz.setDefault('UTC');
 
 // Schema del report
 const reportSchema = new mongoose.Schema({
@@ -19,9 +15,121 @@ const reportSchema = new mongoose.Schema({
   },
   emissionsOneByteMethod: { type: Number },
   emissionsSWDMethod: { type: Number },
+  textTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  textTotalSize: {
+    type: Number,
+    required: true,
+  },
+  textEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  textEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
+  photoTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  photoTotalSize: {
+    type: Number,
+    required: true,
+  },
+  photoEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  photoEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
+  voiceTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  voiceTotalSize: {
+    type: Number,
+    required: true,
+  },
+  voiceEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  voiceEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
+  videoTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  videoTotalSize: {
+    type: Number,
+    required: true,
+  },
+  videoEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  videoEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
+  documentTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  documentTotalSize: {
+    type: Number,
+    required: true,
+  },
+  documentEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  documentEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
+  pollTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  pollTotalSize: {
+    type: Number,
+    required: true,
+  },
+  pollEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  pollEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
+  stickerTotalMessages: {
+    type: Number,
+    required: true,
+  },
+  stickerTotalSize: {
+    type: Number,
+    required: true,
+  },
+  stickerEmissionsOneByteMethod: {
+    type: Number,
+    required: true,
+  },
+  stickerEmissionsSWDMethod: {
+    type: Number,
+    required: true,
+  },
   timestamp: {
     type: Date,
-    default: () => moment().toDate(), // Usa moment per garantire UTC
+    default: Date.now, // Usa moment per garantire UTC
     required: true,
   },
   adminNames: {
