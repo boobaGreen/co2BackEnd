@@ -17,6 +17,7 @@ exports.populateGroupReference = async (req, res, next) => {
           .json({ status: 'error', message: 'Group not found' });
       }
     }
+    console.log('req.body', req.body);
 
     next();
   } catch (error) {
