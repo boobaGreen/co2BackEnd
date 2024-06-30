@@ -12,7 +12,7 @@ const DB =
 async function dbConnect() {
   try {
     await mongoose.connect(DB);
-    console.log('Connected to the database!');
+    console.log('Connected to the database new!');
   } catch (error) {
     console.error('Database connection error:', error.message);
     process.exit(1);
