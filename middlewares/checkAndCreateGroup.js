@@ -11,6 +11,34 @@ const checkAndCreateGroup = async (req, res, next) => {
       totalSizeKB,
       emissionsOneByteMethod,
       emissionsSWDMethod,
+      textTotalMessages,
+      textTotalSize,
+      textEmissionsOneByteMethod,
+      textEmissionsSWDMethod,
+      photoTotalMessages,
+      photoTotalSize,
+      photoEmissionsOneByteMethod,
+      photoEmissionsSWDMethod,
+      voiceTotalMessages,
+      voiceTotalSize,
+      voiceEmissionsOneByteMethod,
+      voiceEmissionsSWDMethod,
+      videoTotalMessages,
+      videoTotalSize,
+      videoEmissionsOneByteMethod,
+      videoEmissionsSWDMethod,
+      documentTotalMessages,
+      documentTotalSize,
+      documentEmissionsOneByteMethod,
+      documentEmissionsSWDMethod,
+      pollTotalMessages,
+      pollTotalSize,
+      pollEmissionsOneByteMethod,
+      pollEmissionsSWDMethod,
+      stickerTotalMessages,
+      stickerTotalSize,
+      stickerEmissionsOneByteMethod,
+      stickerEmissionsSWDMethod,
     } = req.body; // Access all relevant report data
 
     if (!groupId) {
@@ -34,6 +62,34 @@ const checkAndCreateGroup = async (req, res, next) => {
         totalSizeKB: totalSizeKB || 0, // Set to 0 if not provided
         totalEmissionsOneByte: emissionsOneByteMethod || 0, // Set to 0 if not provided
         totalEmissionsSWD: emissionsSWDMethod || 0, // Set to 0 if not provided
+        textTotalMessages: textTotalMessages || 0,
+        textTotalSize: textTotalSize || 0,
+        textEmissionsOneByteMethod: textEmissionsOneByteMethod || 0,
+        textEmissionsSWDMethod: textEmissionsSWDMethod || 0,
+        photoTotalMessages: photoTotalMessages || 0,
+        photoTotalSize: photoTotalSize || 0,
+        photoEmissionsOneByteMethod: photoEmissionsOneByteMethod || 0,
+        photoEmissionsSWDMethod: photoEmissionsSWDMethod || 0,
+        voiceTotalMessages: voiceTotalMessages || 0,
+        voiceTotalSize: voiceTotalSize || 0,
+        voiceEmissionsOneByteMethod: voiceEmissionsOneByteMethod || 0,
+        voiceEmissionsSWDMethod: voiceEmissionsSWDMethod || 0,
+        videoTotalMessages: videoTotalMessages || 0,
+        videoTotalSize: videoTotalSize || 0,
+        videoEmissionsOneByteMethod: videoEmissionsOneByteMethod || 0,
+        videoEmissionsSWDMethod: videoEmissionsSWDMethod || 0,
+        documentEmissionsOneByteMethod: documentEmissionsOneByteMethod || 0,
+        documentEmissionsSWDMethod: documentEmissionsSWDMethod || 0,
+        documentTotalMessages: documentTotalMessages || 0,
+        documentTotalSize: documentTotalSize || 0,
+        pollTotalMessages: pollTotalMessages || 0,
+        pollTotalSize: pollTotalSize || 0,
+        pollEmissionsOneByteMethod: pollEmissionsOneByteMethod || 0,
+        pollEmissionsSWDMethod: pollEmissionsSWDMethod || 0,
+        stickerEmissionsOneByteMethod: stickerEmissionsOneByteMethod || 0,
+        stickerEmissionsSWDMethod: stickerEmissionsSWDMethod || 0,
+        stickerTotalMessages: stickerTotalMessages || 0,
+        stickerTotalSize: stickerTotalSize || 0,
       });
     } else {
       // Update group data if it exists
@@ -46,6 +102,35 @@ const checkAndCreateGroup = async (req, res, next) => {
       group.totalSizeKB += totalSizeKB; // Add report value (or 0 if not provided)
       group.totalEmissionsOneByte += emissionsOneByteMethod; // Add report value (or 0 if not provided)
       group.totalEmissionsSWD += emissionsSWDMethod; // Add report value (or 0 if not provided)
+      group.textTotalMessages += textTotalMessages;
+      group.textTotalSize += textTotalSize;
+      group.textEmissionsOneByteMethod += textEmissionsOneByteMethod;
+      group.textEmissionsSWDMethod += textEmissionsSWDMethod;
+      group.photoTotalMessages += photoTotalMessages;
+      group.photoTotalSize += photoTotalSize;
+      group.photoEmissionsOneByteMethod += photoEmissionsOneByteMethod;
+      group.photoEmissionsSWDMethod += photoEmissionsSWDMethod;
+      group.voiceTotalMessages += voiceTotalMessages;
+      group.voiceTotalSize += voiceTotalSize;
+      group.voiceEmissionsOneByteMethod += voiceEmissionsOneByteMethod;
+      group.voiceEmissionsSWDMethod += voiceEmissionsSWDMethod;
+      group.videoTotalMessages += videoTotalMessages;
+      group.videoTotalSize += videoTotalSize;
+      group.videoEmissionsOneByteMethod += videoEmissionsOneByteMethod;
+      group.videoEmissionsSWDMethod += videoEmissionsSWDMethod;
+      group.documentTotalMessages += documentTotalMessages;
+      group.documentTotalSize += documentTotalSize;
+      group.documentEmissionsOneByteMethod += documentEmissionsOneByteMethod;
+      group.documentEmissionsSWDMethod += documentEmissionsSWDMethod;
+      group.pollTotalMessages += pollTotalMessages;
+      group.pollTotalSize += pollTotalSize;
+      group.pollEmissionsOneByteMethod += pollEmissionsOneByteMethod;
+      group.pollEmissionsSWDMethod += pollEmissionsSWDMethod;
+      group.stickerTotalMessages += stickerTotalMessages;
+      group.stickerTotalSize += stickerTotalSize;
+      group.stickerEmissionsOneByteMethod += stickerEmissionsOneByteMethod;
+      group.stickerEmissionsSWDMethod += stickerEmissionsSWDMethod;
+
       group.lastReportTimestamp = Date.now(); // Update lastReportTimestamp
       await group.save();
     }
