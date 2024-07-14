@@ -141,7 +141,7 @@ const reportSchema = new mongoose.Schema({
     default: Date.now, // Usa moment per garantire UTC
     required: true,
   },
-  adminNames: {
+  adminIds: {
     type: [Number],
     required: [true, 'Report must have at least one admin.'],
     validate: {
