@@ -44,9 +44,9 @@ const groupSchema = new mongoose.Schema({
     comment: 'Timestamp of the most recent report for the group',
   },
   adminNames: {
-    type: [String],
+    type: [Number],
     default: [],
-    comment: 'List of usernames with admin privileges for the group',
+    comment: 'List of user Ids with admin privileges for the group',
   },
   donations: [
     {

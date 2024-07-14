@@ -102,30 +102,37 @@ const checkAndCreateGroup = async (req, res, next) => {
       group.totalSizeKB += totalSizeKB; // Add report value (or 0 if not provided)
       group.totalEmissionsOneByte += emissionsOneByteMethod; // Add report value (or 0 if not provided)
       group.totalEmissionsSWD += emissionsSWDMethod; // Add report value (or 0 if not provided)
+
       group.textTotalMessages += textTotalMessages;
       group.textTotalSize += textTotalSize;
       group.textEmissionsOneByteMethod += textEmissionsOneByteMethod;
       group.textEmissionsSWDMethod += textEmissionsSWDMethod;
+
       group.photoTotalMessages += photoTotalMessages;
       group.photoTotalSize += photoTotalSize;
       group.photoEmissionsOneByteMethod += photoEmissionsOneByteMethod;
       group.photoEmissionsSWDMethod += photoEmissionsSWDMethod;
+
       group.voiceTotalMessages += voiceTotalMessages;
       group.voiceTotalSize += voiceTotalSize;
       group.voiceEmissionsOneByteMethod += voiceEmissionsOneByteMethod;
       group.voiceEmissionsSWDMethod += voiceEmissionsSWDMethod;
+
       group.videoTotalMessages += videoTotalMessages;
       group.videoTotalSize += videoTotalSize;
       group.videoEmissionsOneByteMethod += videoEmissionsOneByteMethod;
       group.videoEmissionsSWDMethod += videoEmissionsSWDMethod;
+
       group.documentTotalMessages += documentTotalMessages;
       group.documentTotalSize += documentTotalSize;
       group.documentEmissionsOneByteMethod += documentEmissionsOneByteMethod;
       group.documentEmissionsSWDMethod += documentEmissionsSWDMethod;
+
       group.pollTotalMessages += pollTotalMessages;
       group.pollTotalSize += pollTotalSize;
       group.pollEmissionsOneByteMethod += pollEmissionsOneByteMethod;
       group.pollEmissionsSWDMethod += pollEmissionsSWDMethod;
+
       group.stickerTotalMessages += stickerTotalMessages;
       group.stickerTotalSize += stickerTotalSize;
       group.stickerEmissionsOneByteMethod += stickerEmissionsOneByteMethod;
