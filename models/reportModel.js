@@ -142,7 +142,7 @@ const reportSchema = new mongoose.Schema({
     required: true,
   },
   adminNames: {
-    type: [String],
+    type: [Number],
     required: [true, 'Report must have at least one admin.'],
     validate: {
       validator: function (array) {
