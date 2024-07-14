@@ -6,7 +6,7 @@ const checkAndCreateGroup = async (req, res, next) => {
       groupId,
       groupName,
       participantsCount,
-      adminNames,
+      adminIds,
       totalMessages,
       totalSizeKB,
       emissionsOneByteMethod,
@@ -57,7 +57,7 @@ const checkAndCreateGroup = async (req, res, next) => {
         groupId,
         groupName,
         participantsCount,
-        adminNames,
+        adminIds,
         totalMessages: totalMessages || 0, // Set to 0 if not provided
         totalSizeKB: totalSizeKB || 0, // Set to 0 if not provided
         totalEmissionsOneByte: emissionsOneByteMethod || 0, // Set to 0 if not provided
@@ -95,7 +95,7 @@ const checkAndCreateGroup = async (req, res, next) => {
       // Update group data if it exists
       group.participantsCount = participantsCount; // Update participantsCount (always)
       group.groupName = groupName; // Update groupName if provided
-      group.adminNames = adminNames; // Update adminNames (always)
+      group.adminIds = adminIds; // Update adminNames (always)
 
       // Update counters (sum with existing values)
       group.totalMessages += totalMessages; // Add report value (or 0 if not provided)

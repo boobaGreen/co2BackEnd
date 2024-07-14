@@ -8,8 +8,8 @@ const checkOrigin = (req, res, next) => {
       console.log('Forbidden origin:', origin);
       return res.status(403).json({ status: 'fail', message: 'Forbidden' });
     }
+    console.log('Origin OK:', origin);
   }
-
   // Passa al middleware successivo
   next();
 };
