@@ -43,7 +43,7 @@ const groupSchema = new mongoose.Schema({
     default: Date.now,
     comment: 'Timestamp of the most recent report for the group',
   },
-  adminNames: {
+  adminIds: {
     type: [Number],
     default: [],
     comment: 'List of user Ids with admin privileges for the group',
