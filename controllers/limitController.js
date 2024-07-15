@@ -14,6 +14,7 @@ exports.createLimitGeneric = async (req, res, next) => {
 
     // Ottieni l'username dell'utente utilizzando l'ID dell'utente
     const user = await User.findById(userId);
+    console.log('user', user);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
