@@ -18,7 +18,7 @@ exports.createLimitGeneric = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    const { userTelegramId } = user;
+    const { telegramId } = user;
 
     // Verifica se l'utente è un amministratore del gruppo
 
@@ -27,7 +27,7 @@ exports.createLimitGeneric = async (req, res, next) => {
     if (!group) {
       return res.status(404).json({ error: 'Group not found' });
     }
-    const telegramIdNumber = +userTelegramId;
+    const telegramIdNumber = +telegramId;
     console.log('telegramIdNumber', telegramIdNumber);
     console.log('group.adminIds', group.adminIds);
     if (!group.adminIds.includes(telegramIdNumber)) {
