@@ -57,6 +57,7 @@ exports.verifyJWT = async (req, res, next) => {
       userId: currentUser._id,
       userName: currentUser.userName,
       userNick: currentUser.displayName,
+      userTelegramId: currentUser.telegramId,
       // Aggiungi altri dettagli dell'utente che desideri inviare al frontend
     });
   } catch (err) {
