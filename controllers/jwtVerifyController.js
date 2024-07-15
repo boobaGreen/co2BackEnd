@@ -63,7 +63,7 @@ exports.verifyJWT = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({
       success: false,
-      message: 'Invalid token. Please log in again.',
+      message: 'Invalid token. Please log in again. ',
     });
   }
 };
