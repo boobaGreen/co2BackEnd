@@ -1,6 +1,7 @@
 const Group = require('../models/groupModel'); // Assuming groupModel.js is in the models folder
 
 const checkAndCreateGroup = async (req, res, next) => {
+  console.log('entry check and create group');
   try {
     const {
       groupId,
@@ -141,7 +142,7 @@ const checkAndCreateGroup = async (req, res, next) => {
       group.lastReportTimestamp = Date.now(); // Update lastReportTimestamp
       await group.save();
     }
-
+    console.log('group in check & create ', group);
     req.group = group; // Add the group to the request for future use
     next();
   } catch (err) {
